@@ -1,0 +1,53 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'org.minimarex.minimacore'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "org.minimarex.minimacore"
+        minSdk 28
+        targetSdk 35
+        versionCode 4
+        versionName "1.0.3"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+
+    //H2 database
+    implementation 'com.h2database:h2:2.4.240'
+
+    //Bouncy Castle
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.69'
+
+    //Toolbar
+    implementation ("com.google.android.material:material:1.13.0")
+
+    //QR Code
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    implementation files('libs/minima.jar')
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}

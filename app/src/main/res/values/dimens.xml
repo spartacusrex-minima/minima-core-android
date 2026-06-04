@@ -1,0 +1,10 @@
+
+<resources>
+    <dimen name="home_info_size_left">16dp</dimen>
+    <dimen name="home_info_size_right">20dp</dimen>
+    <dimen name="home_info_size_keyuses">32dp</dimen>
+    <dimen name="home_info_size_gap">24dp</dimen>
+
+    <dimen name="wallet_send_header_size">24dp</dimen>
+
+</resources>

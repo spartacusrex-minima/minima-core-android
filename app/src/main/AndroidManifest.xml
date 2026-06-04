@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Need Notifications -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <!-- Internet access -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Camera, Photos, input file -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Network API -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Wake Lock-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- BOOT Message -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Battery Optimisation -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+
+    <!-- Service Types for Android 14-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_REMOTE_MESSAGING"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_minima"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:persistent="true"
+        android:name=".MinimaApplication"
+        android:theme="@style/Theme.MinimaCore"
+        android:launchMode="singleInstance"
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        tools:targetApi="31">
+
+        <!-- Launcher Activity-->
+        <activity
+            android:name=".StartActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Launcher -->
+        <activity android:name=".launcher.LauncherActivity"></activity>
+        <activity android:name=".launcher.newwallet.NewWalletActivity"></activity>
+        <activity android:name=".launcher.newwallet.NewWalletRestoreActivity"></activity>
+        <activity android:name=".launcher.restore.RestoreWalletSyncActivity"></activity>
+        <activity android:name=".launcher.restore.SeedSyncServiceActivity"></activity>
+        <activity android:name=".main.SeedSyncActivity"></activity>
+        <activity android:name=".main.views.terminal.TerminalActivity"></activity>
+
+        <!-- Start the service -->
+        <activity android:name=".launcher.StartServiceActivity"></activity>
+
+
+        <!-- Main Activity-->
+        <activity android:name=".main.MainActivity"></activity>
+
+        <!-- SERVICES -->
+        <service
+            android:name="org.minimarex.minimacore.service.MinimaService"
+            android:foregroundServiceType="remoteMessaging"
+            android:enabled="true"
+            android:exported="true">
+
+        </service>
+
+        <!-- RECEIVERS -->
+        <receiver android:name=".service.BootReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".service.Alarm" android:exported="true"/>
+
+    </application>
+
+</manifest>

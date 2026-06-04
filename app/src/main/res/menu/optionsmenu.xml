@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<!--    <item-->
+<!--        android:id="@+id/mainmenu_addpeer"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="Add Peer"-->
+<!--        app:showAsAction="never" />-->
+
+    <item
+        android:id="@+id/mainmenu_terminal"
+        android:orderInCategory="100"
+        android:title="Terminal"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mainmenu_resync"
+        android:orderInCategory="100"
+        android:title="Resync Node"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mainmenu_shhowseed"
+        android:orderInCategory="100"
+        android:title="Show Seed"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mainmenu_shutdown"
+        android:orderInCategory="100"
+        android:title="Shutdown"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mainmenu_wipeminima"
+        android:orderInCategory="100"
+        android:title="Reset Minima"
+        app:showAsAction="never" />
+
+</menu>

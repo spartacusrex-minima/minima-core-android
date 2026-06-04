@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".main.MainActivity">
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:textSize="34dp"
+          android:textStyle="bold"
+          android:text="Status"/>
+
+      <TableLayout
+          android:paddingTop="40dp"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+            <TableRow>
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="right|bottom"
+                      android:textSize="@dimen/home_info_size_left"
+                      android:text="Key Uses : "/>
+
+                  <TextView
+                      android:id="@+id/home_keyuses"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textSize="@dimen/home_info_size_keyuses"
+                      android:text="Connecting.."/>
+            </TableRow>
+
+            <TableRow>
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:textSize="@dimen/home_info_size_left"
+                      android:text=""/>
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:textSize="14dp"
+                      android:text="( Use this when restoring )"/>
+            </TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/home_info_size_gap"/>
+
+            <TableRow>
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="right|bottom"
+                      android:textSize="@dimen/home_info_size_left"
+                      android:text="Minima : "/>
+
+                  <TextView
+                      android:id="@+id/home_version"
+                      android:textSize="@dimen/home_info_size_right"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text=""/>
+            </TableRow>
+
+            <TableRow>
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="right|bottom"
+                      android:textSize="@dimen/home_info_size_left"
+                      android:text="Block : "/>
+
+                  <TextView
+                      android:id="@+id/home_blocks"
+                      android:textSize="@dimen/home_info_size_right"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text=""/>
+            </TableRow>
+
+            <TableRow>
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="right|bottom"
+                      android:textSize="@dimen/home_info_size_left"
+                      android:text="Block Time : "/>
+
+                  <TextView
+                      android:id="@+id/home_block_time"
+                      android:textSize="@dimen/home_info_size_right"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text=""/>
+            </TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/home_info_size_gap"/>
+
+            <TableRow>
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="right|bottom"
+                      android:textSize="@dimen/home_info_size_left"
+                      android:text="Connections : "/>
+
+                  <TextView
+                      android:id="@+id/home_connections"
+                      android:textSize="@dimen/home_info_size_right"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text=""/>
+            </TableRow>
+
+            <TableRow>
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="right|bottom"
+                      android:textSize="@dimen/home_info_size_left"
+                      android:text="Random Peer : "/>
+
+                  <TextView
+                      android:id="@+id/home_peers"
+                      android:textSize="@dimen/home_info_size_right"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text=""/>
+            </TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/home_info_size_gap"/>
+
+            <TableRow>
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="right|bottom"
+                      android:textSize="@dimen/home_info_size_left"
+                      android:text="APK Version : "/>
+
+                  <TextView
+                      android:id="@+id/home_app_version"
+                      android:textSize="@dimen/home_info_size_right"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text=""/>
+            </TableRow>
+
+      </TableLayout>
+
+</LinearLayout>
