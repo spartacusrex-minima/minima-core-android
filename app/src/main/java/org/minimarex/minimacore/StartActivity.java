@@ -16,7 +16,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        logger.log("Start Minima-Core");
+        logger.log("Start Minima-Core..");
 
         //Have we already setup..
         SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
