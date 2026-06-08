@@ -27,20 +27,21 @@ public class MainAdapter extends androidx.viewpager.widget.PagerAdapter {
 
         //Store of all current valid views..
         mAllViews = new BaseView[4];
+
+        mAllViews[0] = new HomeView(mActivity);
+        mAllViews[1] = new BalanceView(mActivity);
+        mAllViews[2] = new SendView(mActivity);
+        mAllViews[3] = new ReceiveView(mActivity);
     }
 
     public void refreshPagerView(int zPosition){
-        if(mAllViews[zPosition] != null){
-            mAllViews[zPosition].refreshView();
-            mAllViews[zPosition].getMainView().invalidate();
-        }
+        mAllViews[zPosition].refreshView();
+        mAllViews[zPosition].getMainView().invalidate();
     }
 
     public void refreshHomeView(){
-        if(mAllViews[0] != null){
-            mAllViews[0].refreshView();
-            mAllViews[0].getMainView().invalidate();
-        }
+        mAllViews[0].refreshView();
+        mAllViews[0].getMainView().invalidate();
     }
 
     @Override
@@ -50,26 +51,13 @@ public class MainAdapter extends androidx.viewpager.widget.PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, int position) {
-
-        BaseView baseview = null;
-
-        if(position == 0){
-            baseview    = new HomeView(mActivity);
-        }else if(position == 1){
-            baseview = new BalanceView(mActivity);
-        }else if(position == 2){
-            baseview = new SendView(mActivity);
-        }else if(position == 3){
-            baseview = new ReceiveView(mActivity);
-        }
-
-        //Store this..
-        mAllViews[position] = baseview;
+        //Remove if added
+        container.removeView(mAllViews[position].getMainView());
 
         //Add to our view..
-        container.addView(baseview.getMainView());
+        container.addView(mAllViews[position].getMainView());
 
-        return baseview.getMainView();
+        return mAllViews[position].getMainView();
     }
 
     @Override
@@ -79,9 +67,6 @@ public class MainAdapter extends androidx.viewpager.widget.PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        //No store..
-        mAllViews[position] = null;
-
         //Remove from container
         container.removeView((View)object);
     }
@@ -90,6 +75,7 @@ public class MainAdapter extends androidx.viewpager.widget.PagerAdapter {
         for(int i=0;i<mAllViews.length;i++){
             if(mAllViews[i] != null){
                 mAllViews[i].refreshView();
+                mAllViews[i].getMainView().invalidate();
             }
         }
     }

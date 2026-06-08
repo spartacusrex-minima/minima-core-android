@@ -31,7 +31,7 @@ public class HomeView extends BaseView {
     TextView mConnections;
     TextView mPeers;
 
-    private SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
+    private SimpleDateFormat DATEFORMAT = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.ENGLISH);
 
     public HomeView(Activity zActivity){
         super(zActivity, R.layout.view_home);
