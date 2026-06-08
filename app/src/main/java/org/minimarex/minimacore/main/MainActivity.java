@@ -318,7 +318,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         }
 
         //Cancel the alarm
-        mMinima.cancelAlarm();
+        if(mMinima != null){
+            mMinima.cancelAlarm();
+        }
 
         //Show a shutdown spinning dialog
         runOnUiThread(new Runnable() {
@@ -337,8 +339,14 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         });
 
         //Unbind from service
-        mMinima = null;
-        unbindService(this);
+        if(mMinima!=null) {
+            mMinima = null;
+            try{
+                unbindService(this);
+            }catch(Exception exc){
+
+            }
+        }
 
         Intent minimaintent = new Intent(MainActivity.this, MinimaService.class);
         boolean stopped = stopService(minimaintent);
