@@ -108,11 +108,8 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         tabs.setupWithViewPager(mMainPager);
 
         //Set up Tabs
-        //tabs.getTabAt(0).setText("Home");
-        //tabs.getTabAt(0).setIcon(R.drawable.ic_minima);
-
         tabs.getTabAt(0).setText("Balance");
-        tabs.getTabAt(0).setIcon(R.drawable.ic_network);
+        tabs.getTabAt(0).setIcon(R.drawable.ic_minima);
 
         tabs.getTabAt(1).setText("Send");
         tabs.getTabAt(1).setIcon(R.drawable.ic_transfer);
@@ -120,8 +117,11 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         tabs.getTabAt(2).setText("Receive");
         tabs.getTabAt(2).setIcon(R.drawable.ic_freedom);
 
-        tabs.getTabAt(3).setText("Apps");
-        tabs.getTabAt(3).setIcon(R.drawable.ic_dapps);
+        tabs.getTabAt(3).setText("History");
+        tabs.getTabAt(3).setIcon(R.drawable.ic_network);
+
+        tabs.getTabAt(4).setText("Apps");
+        tabs.getTabAt(4).setIcon(R.drawable.ic_dapps);
 
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
