@@ -12,6 +12,8 @@ import org.minimarex.minimaapi.MinimaAPIMessages;
 import org.minimarex.minimacore.utils.logger;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MinimaReceiver extends BroadcastReceiver {
 
@@ -20,6 +22,11 @@ public class MinimaReceiver extends BroadcastReceiver {
     private Minima mMinima;
 
     ReceiverDB mDatabase;
+
+    //Commands run on a single background thread - Android forbids network on the main thread
+    //(megammrsync / archive / restoresync open sockets inline) and a slow command must not
+    //freeze the UI or the broadcast queue. One thread keeps commands serialised as before.
+    ExecutorService mCmdExecutor = Executors.newSingleThreadExecutor();
 
     public MinimaReceiver(Minima zMinima, Context zContext){
         super();
@@ -38,6 +45,7 @@ public class MinimaReceiver extends BroadcastReceiver {
     }
 
     public void onDestroy(){
+        mCmdExecutor.shutdown();
         mDatabase.close();
     }
 
@@ -121,18 +129,43 @@ public class MinimaReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                //Run the command
-                String result   = mMinima.runMinimaCMD(cmd, false, Userid);
+                //Run the command OFF the broadcast (main) thread and respond from there
+                final Context appcontext = zContext.getApplicationContext();
+                final String  userid     = Userid;
+                final boolean fenabled   = enabled;
+                final boolean fadmin     = admin;
+                final String  fpackage   = frompackage;
+                final String  fresponse  = responseid;
+                final String  fminimauid = minimauid;
 
-                //Check the result is within acceptable parameters
-                if(result.length() > MAX_MESSAGE_LEN){
-                    String basicmessage = getBasicMessage(false, enabled, admin, "Result too long! MAX("+MAX_MESSAGE_LEN+")");
-                    sendResponse(zContext, frompackage, responseid, minimauid, basicmessage);
-                    return;
-                }
+                mCmdExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            //Run the command
+                            String result = mMinima.runMinimaCMD(cmd, false, userid);
 
-                //Send it back..
-                sendResponse(zContext, frompackage, responseid, minimauid, result);
+                            //Check the result is within acceptable parameters
+                            if(result.length() > MAX_MESSAGE_LEN){
+                                String basicmessage = getBasicMessage(false, fenabled, fadmin, "Result too long! MAX("+MAX_MESSAGE_LEN+")");
+                                sendResponse(appcontext, fpackage, fresponse, fminimauid, basicmessage);
+                                return;
+                            }
+
+                            //Send it back..
+                            sendResponse(appcontext, fpackage, fresponse, fminimauid, result);
+
+                        }catch(Exception exc){
+                            MinimaAPILogger.log("ERROR MinimaReceive CMD :"+exc.toString());
+
+                            //Tell the caller rather than go silent
+                            try{
+                                String basicmessage = getBasicMessage(false, fenabled, fadmin, "Command failed : "+exc);
+                                sendResponse(appcontext, fpackage, fresponse, fminimauid, basicmessage);
+                            }catch(Exception ignore){}
+                        }
+                    }
+                });
             }
 
         }catch(Exception exc){
