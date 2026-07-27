@@ -25,7 +25,7 @@ public class AppsAdapter extends BaseAdapter {
 
     Context mContext;
 
-    private static LayoutInflater inflater = null;
+    private LayoutInflater inflater = null;
 
     ReceiverDB mDatabase;
 
