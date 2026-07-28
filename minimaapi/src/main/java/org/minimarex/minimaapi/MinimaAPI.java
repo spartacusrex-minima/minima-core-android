@@ -4,12 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MinimaAPI {
 
@@ -46,6 +52,10 @@ public class MinimaAPI {
     Hashtable<String, MinimaAPIListener> mResponseHandlers = new Hashtable<>();
 
     MinimaAPIReceive mMinimaAPIReceiver;
+
+    //Large responses arrive as a content:// URI - read the file OFF the main
+    //thread (ResponseReceived runs in a BroadcastReceiver on main)
+    ExecutorService mFileExecutor = Executors.newSingleThreadExecutor();
 
     public MinimaAPI(Context zContext, MinimaAPIListener zRegisterListener){
         mContext = zContext;
@@ -95,6 +105,9 @@ public class MinimaAPI {
         try{
             mContext.unregisterReceiver(mMinimaAPIReceiver);
         }catch(Exception exc){}
+        try{
+            mFileExecutor.shutdown();
+        }catch(Exception exc){}
     }
 
     public void ResponseReceived(Intent zIntent){
@@ -106,32 +119,75 @@ public class MinimaAPI {
             return;
         }
 
-        String responseid   = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_ID);
-        String result       = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_RESULT);
+        final String responseid = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_ID);
+
+        //Is the payload a content:// file.. (result was too big for an Intent extra)
+        final String uristr = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_URI);
+        if(uristr != null){
+
+            //Read the file OFF the main thread then deliver as normal
+            mFileExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    String result;
+                    try{
+                        result = readResponseUri(uristr);
+                    }catch(Exception exc){
+                        MinimaAPILogger.log("ERROR reading response URI : "+exc);
+
+                        //NEVER go silent - callers would wait forever
+                        result = "{\"status\":false,\"error\":\"Failed to read large response : "+exc+"\"}";
+                    }
+                    deliverResult(responseid, result);
+                }
+            });
+            return;
+        }
+
+        String result = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_RESULT);
+        deliverResult(responseid, result);
+    }
+
+    private String readResponseUri(String zUriStr) throws Exception {
+        InputStream is = mContext.getContentResolver().openInputStream(Uri.parse(zUriStr));
+        try{
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buf = new byte[65536];
+            int read;
+            while((read = is.read(buf)) != -1){
+                baos.write(buf, 0, read);
+            }
+            return new String(baos.toByteArray(), StandardCharsets.UTF_8);
+        }finally{
+            is.close();
+        }
+    }
+
+    private void deliverResult(String zResponseID, String zResult){
 
         //Convert the Result to a JSON
         JSONObject json = null;
         try {
-            json = new JSONObject(result);
+            json = new JSONObject(zResult);
         } catch (JSONException e) {
-            MinimaAPILogger.log("Received Invalid JSONObject from broadcast! : "+result);
+            MinimaAPILogger.log("Received Invalid JSONObject from broadcast! : "+zResult);
 
             json = new JSONObject();
         }
 
         //Find the Listener..
-        MinimaAPIListener listener = mResponseHandlers.get(responseid);
+        MinimaAPIListener listener = mResponseHandlers.get(zResponseID);
 
         if(MinimaAPI.LOGGING_ENABLED){
-            MinimaAPILogger.log("MinimaAPI - RECEIVED respID:"+responseid+" resp:"+result);
+            MinimaAPILogger.log("MinimaAPI - RECEIVED respID:"+zResponseID+" resp:"+zResult);
         }
 
         //Did we find it..
         if(listener == null){
-            MinimaAPILogger.log("Received Invalid ResponseID.. not found : "+responseid);
+            MinimaAPILogger.log("Received Invalid ResponseID.. not found : "+zResponseID);
         }else{
             //Remove this response handler..
-            mResponseHandlers.remove(responseid);
+            mResponseHandlers.remove(zResponseID);
 
             //Handle reply..
             listener.response(json);
@@ -193,10 +249,49 @@ public class MinimaAPI {
         //What you expect from Minima responses
         intent.putExtra(MinimaAPIMessages.MINIMA_API_CMD_ACTION, zCommand);
 
+        //We can consume oversized results as a content:// file (old nodes ignore this)
+        intent.putExtra(MinimaAPIMessages.MINIMA_API_CMD_FILERESP, true);
+
         //Create the Reponse UID
         addResponseHandler(intent, zListener);
 
         //And broadcast
+        mContext.sendBroadcast(intent);
+    }
+
+    /**
+     * File bridge - operate on files inside the node's base folder. ADMIN-gated on the node.
+     *
+     * @param zAction  list | get | put | mkdir | move | delete
+     * @param zPath    path relative to the node's base folder ("/" = root)
+     * @param zNewPath move only - the destination path (relative), otherwise null
+     * @param zUri     put only - a content:// uri this app has granted the node read on, otherwise null
+     */
+    public void FileCommand(String zAction, String zPath, String zNewPath, Uri zUri, MinimaAPIListener zListener){
+
+        Intent intent = getBaseIntent(MinimaAPIMessages.MINIMA_API_FILE);
+
+        intent.putExtra(MinimaAPIMessages.MINIMA_API_FILE_ACTION, zAction);
+        intent.putExtra(MinimaAPIMessages.MINIMA_API_FILE_PATH, zPath);
+
+        if(zNewPath != null){
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_FILE_NEWPATH, zNewPath);
+        }
+
+        if(zUri != null){
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_FILE_URI, zUri.toString());
+
+            //Belt and braces - the caller should ALSO grantUriPermission to the node package,
+            //but a ClipData grant travels with the Intent on newer Android
+            intent.setClipData(android.content.ClipData.newRawUri("minima_file", zUri));
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+
+        //Oversized results (huge directory listings) may come back as a content:// file
+        intent.putExtra(MinimaAPIMessages.MINIMA_API_CMD_FILERESP, true);
+
+        addResponseHandler(intent, zListener);
+
         mContext.sendBroadcast(intent);
     }
 }
