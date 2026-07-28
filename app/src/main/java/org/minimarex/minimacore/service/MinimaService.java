@@ -274,18 +274,24 @@ public class MinimaService extends Service {
         //EXTRA params
         String prefstring       = pref.getString("minima_extra_params","");
 
-        //Remove -clean..
-        String newprefs = prefstring.replaceAll("-clean","");
+        //Remove the wipe flags.. and USE the stripped string this boot too - previously
+        //the ORIGINAL string was tokenized into the boot args, so a stored -clean still
+        //wiped the node on the very boot it was set
+        String newprefs = prefstring
+                .replaceAll("-clean","")
+                .replaceAll("-genesis","")
+                .replaceAll("-solo","")
+                .trim().replaceAll("\\s+"," ");
         SharedPreferences.Editor edit = pref.edit();
         edit.putString("minima_extra_params",newprefs);
         edit.apply();
 
         //Check if Valid!
-        boolean validparams = ParamConfigurer.checkParams(prefstring);
+        boolean validparams = ParamConfigurer.checkParams(newprefs);
 
         if(validparams) {
-            if (!prefstring.equals("")) {
-                StringTokenizer strtok = new StringTokenizer(prefstring, " ");
+            if (!newprefs.equals("")) {
+                StringTokenizer strtok = new StringTokenizer(newprefs, " ");
                 while (strtok.hasMoreTokens()) {
                     String param = strtok.nextToken();
                     vars.add(param);
