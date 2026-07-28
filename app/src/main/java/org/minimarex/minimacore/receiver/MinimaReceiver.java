@@ -1,8 +1,12 @@
 package org.minimarex.minimacore.receiver;
 
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+
+import androidx.core.content.FileProvider;
 
 import org.minima.Minima;
 import org.minima.utils.json.JSONObject;
@@ -11,6 +15,9 @@ import org.minimarex.minimaapi.MinimaAPILogger;
 import org.minimarex.minimaapi.MinimaAPIMessages;
 import org.minimarex.minimacore.utils.logger;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,6 +25,11 @@ import java.util.concurrent.Executors;
 public class MinimaReceiver extends BroadcastReceiver {
 
     public static final int MAX_MESSAGE_LEN = 256000;
+
+    //Large responses are written here and handed over as a content:// URI
+    public static final String FILE_RESPONSE_AUTHORITY  = "org.minimarex.minimacore.ipcresponses";
+    public static final String FILE_RESPONSE_DIR        = "ipcresponses";
+    public static final long   FILE_RESPONSE_MAX_AGE_MS = 5 * 60 * 1000;
 
     private Minima mMinima;
 
@@ -36,6 +48,9 @@ public class MinimaReceiver extends BroadcastReceiver {
 
         mDatabase = new ReceiverDB(zContext);
         //mDatabase.wipeDB();
+
+        //Clear out any leftover large-response files from a previous run
+        pruneResponseFiles(zContext.getApplicationContext(), true);
 
         MinimaAPILogger.log("MAIN - Started logging:"+MinimaAPI.LOGGING_ENABLED);
     }
@@ -121,6 +136,9 @@ public class MinimaReceiver extends BroadcastReceiver {
 
                 String cmd      = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_CMD_ACTION);
 
+                //Can the caller consume a content:// file for an oversized result..
+                boolean fileresp = zIntent.getBooleanExtra(MinimaAPIMessages.MINIMA_API_CMD_FILERESP, false);
+
                 //Check size.. is JSON format so will be longer than normal HEX
                 //Need to be able to sign transactions etc..
                 if(cmd.length() > MAX_MESSAGE_LEN){
@@ -137,6 +155,7 @@ public class MinimaReceiver extends BroadcastReceiver {
                 final String  fpackage   = frompackage;
                 final String  fresponse  = responseid;
                 final String  fminimauid = minimauid;
+                final boolean ffileresp  = fileresp;
 
                 mCmdExecutor.execute(new Runnable() {
                     @Override
@@ -147,6 +166,12 @@ public class MinimaReceiver extends BroadcastReceiver {
 
                             //Check the result is within acceptable parameters
                             if(result.length() > MAX_MESSAGE_LEN){
+
+                                //New clients get the payload as a content:// file - old clients get the stub
+                                if(ffileresp && sendFileResponse(appcontext, fpackage, fresponse, fminimauid, result)){
+                                    return;
+                                }
+
                                 String basicmessage = getBasicMessage(false, fenabled, fadmin, "Result too long! MAX("+MAX_MESSAGE_LEN+")");
                                 sendResponse(appcontext, fpackage, fresponse, fminimauid, basicmessage);
                                 return;
@@ -196,6 +221,100 @@ public class MinimaReceiver extends BroadcastReceiver {
 
         //And broadcast
         zContext.sendBroadcast(intent);
+    }
+
+    /**
+     * Hand an oversized result to the caller as a content:// file.
+     *
+     * The payload cannot travel as an Intent extra (Android Binder ~1MB transaction limit,
+     * exceeding it kills the receiving process with an uncatchable TransactionTooLargeException)
+     * so it is written to cache and ONLY the requesting package is granted read on the URI.
+     *
+     * @return true if the file response was sent - false means fall back to the stub
+     */
+    public boolean sendFileResponse(Context zContext, String zPackage, String zResponseID, String zMinimaID, String zResponse){
+
+        try{
+            //Housekeeping first - never let the cache grow
+            pruneResponseFiles(zContext, false);
+
+            File dir = new File(zContext.getCacheDir(), FILE_RESPONSE_DIR);
+            if(!dir.exists() && !dir.mkdirs()){
+                MinimaAPILogger.log("ERROR sendFileResponse : could not create "+dir);
+                return false;
+            }
+
+            //Response id is client-supplied - sanitise it before using as a filename
+            String safeid = zResponseID == null ? "" : zResponseID.replaceAll("[^0-9a-zA-Zx]", "");
+            File respfile = new File(dir, "resp_"+safeid+"_"+System.nanoTime()+".json");
+
+            FileOutputStream fos = new FileOutputStream(respfile);
+            try{
+                fos.write(zResponse.getBytes(StandardCharsets.UTF_8));
+            }finally{
+                fos.close();
+            }
+
+            //content:// URI via the (non-exported) FileProvider
+            Uri uri = FileProvider.getUriForFile(zContext, FILE_RESPONSE_AUTHORITY, respfile);
+
+            //Explicit per-package grant - extras do NOT auto-grant
+            zContext.grantUriPermission(zPackage, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            //Create the Response intent - same shape as sendResponse but with a URI payload
+            Intent intent = new Intent(MinimaAPIMessages.MINIMA_API_RESPONSE);
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_REGISTER_MINIMAID, zMinimaID);
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_ID, zResponseID);
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_URI, uri.toString());
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_LEN, (long)zResponse.length());
+
+            //Belt and braces - ClipData grant travels with the Intent on newer Android
+            intent.setClipData(ClipData.newRawUri("minima_response", uri));
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            //Set to send ONLY back to original sender
+            intent.setPackage(zPackage);
+
+            if(MinimaAPI.LOGGING_ENABLED){
+                MinimaAPILogger.log("MAIN - SEND FILE BROADCAST respID:"+zResponseID+" len:"+zResponse.length()+" uri:"+uri);
+            }
+
+            //And broadcast
+            zContext.sendBroadcast(intent);
+
+            return true;
+
+        }catch(Exception exc){
+            MinimaAPILogger.log("ERROR sendFileResponse : "+exc);
+            return false;
+        }
+    }
+
+    /**
+     * Delete old large-response files (and revoke their URI grants).
+     * @param zAll true wipes everything (startup), false only files past FILE_RESPONSE_MAX_AGE_MS
+     */
+    private void pruneResponseFiles(Context zContext, boolean zAll){
+        try{
+            File dir = new File(zContext.getCacheDir(), FILE_RESPONSE_DIR);
+            File[] files = dir.listFiles();
+            if(files == null){
+                return;
+            }
+
+            long now = System.currentTimeMillis();
+            for(File f : files){
+                if(zAll || (now - f.lastModified()) > FILE_RESPONSE_MAX_AGE_MS){
+                    try{
+                        Uri uri = FileProvider.getUriForFile(zContext, FILE_RESPONSE_AUTHORITY, f);
+                        zContext.revokeUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    }catch(Exception ignore){}
+                    f.delete();
+                }
+            }
+        }catch(Exception exc){
+            MinimaAPILogger.log("ERROR pruneResponseFiles : "+exc);
+        }
     }
 
     public void sendNotify(Context zContext, String zPackage, String zMinimaID, String zNotifyMessage){

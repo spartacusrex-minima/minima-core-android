@@ -21,10 +21,17 @@ public class MinimaAPIMessages {
     public static final String MINIMA_API_CMD                   = MINIMA_BASE_CLASS +".CMD";
     public static final String MINIMA_API_CMD_ACTION            = MINIMA_BASE_CLASS +".CMD_ACTION";
 
+    //Caller can consume a content:// file response for results too big for an Intent extra
+    public static final String MINIMA_API_CMD_FILERESP          = MINIMA_BASE_CLASS +".CMD_FILERESP";
+
     //Send the response back
     public static final String MINIMA_API_RESPONSE              = MINIMA_BASE_CLASS +".RESPONSE";
     public static final String MINIMA_API_RESPONSE_ID           = MINIMA_BASE_CLASS +".RESPONSE_ID";
     public static final String MINIMA_API_RESPONSE_RESULT       = MINIMA_BASE_CLASS +".RESPONSE_RESULT";
+
+    //Large response - payload is at this content:// URI instead of RESPONSE_RESULT
+    public static final String MINIMA_API_RESPONSE_URI          = MINIMA_BASE_CLASS +".RESPONSE_URI";
+    public static final String MINIMA_API_RESPONSE_LEN          = MINIMA_BASE_CLASS +".RESPONSE_LEN";
 
     //Send a global Broadcast Message
     public static final String MINIMA_API_NOTIFY                = MINIMA_BASE_CLASS +".NOTIFY";
