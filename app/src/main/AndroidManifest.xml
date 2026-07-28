@@ -76,6 +76,19 @@
                 android:value="Requires a background connection to the Minima network to be always on"/>
         </service>
 
+        <!-- Large IPC command responses are handed to the caller as a content:// file
+             (Intent extras cross the Binder ~1MB limit) - read access is granted
+             explicitly and only to the requesting package -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="org.minimarex.minimacore.ipcresponses"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/ipc_response_paths" />
+        </provider>
+
         <!-- RECEIVERS -->
         <receiver android:name=".service.BootReceiver" android:exported="true">
             <intent-filter>
