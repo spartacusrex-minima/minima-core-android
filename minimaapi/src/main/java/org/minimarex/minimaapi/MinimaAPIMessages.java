@@ -36,4 +36,13 @@ public class MinimaAPIMessages {
     //Send a global Broadcast Message
     public static final String MINIMA_API_NOTIFY                = MINIMA_BASE_CLASS +".NOTIFY";
     public static final String MINIMA_API_NOTIFY_DATA           = MINIMA_BASE_CLASS +".NOTIFY_DATA";
+
+    //File bridge - list/get/put/mkdir/move/delete files in the node's base folder.
+    //ADMIN-gated on the node side (a readable base folder includes backups). Responses
+    //come back on the normal .RESPONSE channel; "get" replies carry a granted content:// uri.
+    public static final String MINIMA_API_FILE                  = MINIMA_BASE_CLASS +".FILE";
+    public static final String MINIMA_API_FILE_ACTION           = MINIMA_BASE_CLASS +".FILE_ACTION";
+    public static final String MINIMA_API_FILE_PATH             = MINIMA_BASE_CLASS +".FILE_PATH";
+    public static final String MINIMA_API_FILE_NEWPATH          = MINIMA_BASE_CLASS +".FILE_NEWPATH";
+    public static final String MINIMA_API_FILE_URI              = MINIMA_BASE_CLASS +".FILE_URI";
 }

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
+    <!-- Oversized IPC command results (JSON), written by MinimaReceiver.sendFileResponse -->
     <cache-path name="ipcresponses" path="ipcresponses/" />
+    <!-- File-bridge exports: the node's base folder (backups, archive exports, .txn files).
+         URIs are only ever minted by the FILE 'get' action and granted per requesting package. -->
+    <files-path name="nodefiles" path="." />
 </paths>

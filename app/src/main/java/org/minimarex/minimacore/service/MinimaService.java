@@ -312,6 +312,7 @@ public class MinimaService extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction(MinimaAPIMessages.MINIMA_API_REGISTER);
         filter.addAction(MinimaAPIMessages.MINIMA_API_CMD);
+        filter.addAction(MinimaAPIMessages.MINIMA_API_FILE);
 
         registerReceiver(mMinimaReceiver, filter, Context.RECEIVER_EXPORTED);
     }

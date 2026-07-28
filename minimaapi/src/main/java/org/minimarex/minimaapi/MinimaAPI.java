@@ -258,4 +258,40 @@ public class MinimaAPI {
         //And broadcast
         mContext.sendBroadcast(intent);
     }
+
+    /**
+     * File bridge - operate on files inside the node's base folder. ADMIN-gated on the node.
+     *
+     * @param zAction  list | get | put | mkdir | move | delete
+     * @param zPath    path relative to the node's base folder ("/" = root)
+     * @param zNewPath move only - the destination path (relative), otherwise null
+     * @param zUri     put only - a content:// uri this app has granted the node read on, otherwise null
+     */
+    public void FileCommand(String zAction, String zPath, String zNewPath, Uri zUri, MinimaAPIListener zListener){
+
+        Intent intent = getBaseIntent(MinimaAPIMessages.MINIMA_API_FILE);
+
+        intent.putExtra(MinimaAPIMessages.MINIMA_API_FILE_ACTION, zAction);
+        intent.putExtra(MinimaAPIMessages.MINIMA_API_FILE_PATH, zPath);
+
+        if(zNewPath != null){
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_FILE_NEWPATH, zNewPath);
+        }
+
+        if(zUri != null){
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_FILE_URI, zUri.toString());
+
+            //Belt and braces - the caller should ALSO grantUriPermission to the node package,
+            //but a ClipData grant travels with the Intent on newer Android
+            intent.setClipData(android.content.ClipData.newRawUri("minima_file", zUri));
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+
+        //Oversized results (huge directory listings) may come back as a content:// file
+        intent.putExtra(MinimaAPIMessages.MINIMA_API_CMD_FILERESP, true);
+
+        addResponseHandler(intent, zListener);
+
+        mContext.sendBroadcast(intent);
+    }
 }
