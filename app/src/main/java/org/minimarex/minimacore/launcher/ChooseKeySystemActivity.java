@@ -16,18 +16,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import org.minima.utils.json.JSONArray;
-import org.minima.utils.json.JSONObject;
 import org.minimarex.minimacore.R;
-import org.minimarex.minimacore.launcher.newwallet.NewWalletActivity;
-import org.minimarex.minimacore.launcher.restore.RestoreBlockAsKeysSyncActivity;
 import org.minimarex.minimacore.launcher.restore.RestoreWalletSyncActivity;
 import org.minimarex.minimacore.receiver.ReceiverDB;
 import org.minimarex.minimacore.utils.logger;
 
-public class LauncherActivity extends AppCompatActivity {
+public class ChooseKeySystemActivity extends AppCompatActivity {
 
-    public static LauncherActivity LAUNCHER_ACTIVITY;
+    public static ChooseKeySystemActivity CHOOSESYSTEM_ACTIVITY;
 
     ReceiverDB mDatabase;
 
@@ -42,10 +38,10 @@ public class LauncherActivity extends AppCompatActivity {
 
         logger.log("Minima Launcher started..");
 
-        LAUNCHER_ACTIVITY = this;
+        CHOOSESYSTEM_ACTIVITY = this;
 
         EdgeToEdge.enable(this);
-        setContentView(R.layout.launcher_activity);
+        setContentView(R.layout.choosekeysystem_activity);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.launcher_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -62,37 +58,37 @@ public class LauncherActivity extends AppCompatActivity {
         tb.setTitle("Minima-Core");
         setSupportActionBar(tb);
 
-        Button newwallet = findViewById(R.id.launcher_button_newwallet);
+        Button newwallet = findViewById(R.id.launcher_button_newsystem);
         newwallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Use this System..
+                SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("BLOCKS_AS_KEYUSES", true);
+                editor.commit();
+
                 //Start new activity
-                Intent myIntent = new Intent(LauncherActivity.this, NewWalletActivity.class);
-                LauncherActivity.this.startActivity(myIntent);
+                Intent myIntent = new Intent(ChooseKeySystemActivity.this, LauncherActivity.class);
+                ChooseKeySystemActivity.this.startActivity(myIntent);
             }
         });
 
-        Button restorewallet = findViewById(R.id.launcher_button_restore);
+        Button restorewallet = findViewById(R.id.launcher_button_legacy);
         restorewallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                SharedPreferences pref  = getSharedPreferences("main_prefs",MODE_PRIVATE);
+                //Use this System..
+                SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("BLOCKS_AS_KEYUSES", false);
+                editor.commit();
 
-                //Are we using the NEW systen..
-                if(pref.getBoolean("BLOCKS_AS_KEYUSES", false)){
-
-                    //Start new activity - NO Key Uses..
-                    Intent myIntent = new Intent(LauncherActivity.this, RestoreBlockAsKeysSyncActivity.class);
-                    LauncherActivity.this.startActivity(myIntent);
-
-                }else{
-                    //Start ORIGINAL new activity - with Key Uses..
-                    Intent myIntent = new Intent(LauncherActivity.this, RestoreWalletSyncActivity.class);
-                    LauncherActivity.this.startActivity(myIntent);
-                }
-
-
+                //Start new activity
+                Intent myIntent = new Intent(ChooseKeySystemActivity.this, RestoreWalletSyncActivity.class);
+                ChooseKeySystemActivity.this.startActivity(myIntent);
             }
         });
     }
@@ -101,4 +97,6 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
 }

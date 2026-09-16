@@ -1,4 +1,4 @@
-package org.minimarex.minimacore.launcher.newwallet;
+package org.minimarex.minimacore.launcher.restore;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,21 +20,18 @@ import org.minima.utils.BIP39;
 import org.minimarex.minimacore.R;
 import org.minimarex.minimacore.launcher.ChooseKeySystemActivity;
 import org.minimarex.minimacore.launcher.LauncherActivity;
-import org.minimarex.minimacore.launcher.StartServiceActivity;
-import org.minimarex.minimacore.launcher.restore.SeedSyncServiceActivity;
-import org.minimarex.minimacore.main.MainActivity;
-import org.minimarex.minimacore.utils.logger;
 
-public class NewWalletRestoreActivity extends AppCompatActivity {
+public class RestoreBlockAsKeysSyncActivity extends AppCompatActivity {
 
     EditText mSeedInput;
 
+    EditText mMegaNode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         EdgeToEdge.enable(this);
-        setContentView(R.layout.restorenewwallet_activity);
+        setContentView(R.layout.restorewallet_blockaskeyuses_activity);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.restorewallet_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -43,10 +39,11 @@ public class NewWalletRestoreActivity extends AppCompatActivity {
         });
 
         Toolbar tb = findViewById(R.id.toolbar);
-        tb.setTitle("New Wallet");
+        tb.setTitle("Restore Wallet");
         setSupportActionBar(tb);
 
-        mSeedInput = findViewById(R.id.restorewallet_seed);
+        mSeedInput      = findViewById(R.id.restorewallet_seed);
+        mMegaNode       = findViewById(R.id.restorewallet_megammr);
 
         Button checkbutton = findViewById(R.id.restorewallet_button_check);
         checkbutton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +51,7 @@ public class NewWalletRestoreActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String seed = mSeedInput.getText().toString().trim();
                 if(seed.equals("")){
-                    logger.showDialog(NewWalletRestoreActivity.this,"Seed Error","Cannot have an empty seed");
+                    showDialog("Seed Error","Cannot have an empty seed");
                     return;
                 }
 
@@ -63,11 +60,11 @@ public class NewWalletRestoreActivity extends AppCompatActivity {
                     String newseed = BIP39.cleanSeedPhrase(seed);
                     setSeedText(newseed);
                 }catch (IllegalArgumentException exc){
-                    logger.showDialog(NewWalletRestoreActivity.this,"Seed Error","There is an invalid word in your seed");
+                    showDialog("Seed Error","There is an invalid word in your seed");
                     return;
                 }
 
-                logger.showDialog(NewWalletRestoreActivity.this,"Seed Phrase","Your seed phrase is now valid!");
+                showDialog("Seed Phrase","Your seed phrase is now valid!");
             }
         });
 
@@ -79,29 +76,26 @@ public class NewWalletRestoreActivity extends AppCompatActivity {
                 //Get the seed
                 String seed = mSeedInput.getText().toString().trim();
                 if(seed.equals("")){
-                    logger.showDialog(NewWalletRestoreActivity.this,"Seed Error","Cannot have an empty seed");
+                    showDialog("Seed Error","Cannot have an empty seed");
                     return;
                 }
 
-//                //Get the Node
-//                String seed = mSeedInput.getText().toString().trim();
-//                if(seed.equals("")){
-//                    logger.showDialog(NewWalletRestoreActivity.this,"Seed Error","Cannot have an empty seed");
-//                    return;
-//                }
+                String megammr = mMegaNode.getText().toString().trim();
 
                 //Set the prefs..
                 SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("SEED_SET", true);
                 editor.putString("SEED", seed);
+                editor.putInt("KEYUSES", 0);
+                editor.putString("default_peers", megammr);
                 editor.commit();
 
                 //Jump to restore wallet..
-                Intent myIntent = new Intent(NewWalletRestoreActivity.this, StartServiceActivity.class);
-                NewWalletRestoreActivity.this.startActivity(myIntent);
+                Intent myIntent = new Intent(RestoreBlockAsKeysSyncActivity.this, SeedSyncServiceActivity.class);
+                RestoreBlockAsKeysSyncActivity.this.startActivity(myIntent);
 
-                //Close the main Launchers
+                //Close the main Laumcher
                 ChooseKeySystemActivity.CHOOSESYSTEM_ACTIVITY.finish();
                 LauncherActivity.LAUNCHER_ACTIVITY.finish();
 
@@ -118,4 +112,17 @@ public class NewWalletRestoreActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void showDialog(String zTitle, String zMessage){
+        new AlertDialog.Builder(this)
+                .setTitle(zTitle)
+                .setMessage(zMessage)
+                .setIcon(R.drawable.ic_minima)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }}).show();
+    }
+
+
 }

@@ -51,6 +51,9 @@
         </activity>
 
         <!-- Launcher -->
+        <activity android:name=".launcher.ChooseKeySystemActivity"></activity>
+        <activity android:name=".launcher.restore.RestoreBlockAsKeysSyncActivity"></activity>
+
         <activity android:name=".launcher.LauncherActivity"></activity>
         <activity android:name=".launcher.newwallet.NewWalletActivity"></activity>
         <activity android:name=".launcher.newwallet.NewWalletRestoreActivity"></activity>

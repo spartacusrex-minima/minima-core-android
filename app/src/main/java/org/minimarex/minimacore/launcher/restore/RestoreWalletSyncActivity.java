@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import org.minima.utils.BIP39;
 import org.minimarex.minimacore.R;
+import org.minimarex.minimacore.launcher.ChooseKeySystemActivity;
 import org.minimarex.minimacore.launcher.LauncherActivity;
 import org.minimarex.minimacore.utils.logger;
 
@@ -105,6 +106,7 @@ public class RestoreWalletSyncActivity extends AppCompatActivity {
                 RestoreWalletSyncActivity.this.startActivity(myIntent);
 
                 //Close the main Laumcher
+                ChooseKeySystemActivity.CHOOSESYSTEM_ACTIVITY.finish();
                 LauncherActivity.LAUNCHER_ACTIVITY.finish();
 
                 finish();

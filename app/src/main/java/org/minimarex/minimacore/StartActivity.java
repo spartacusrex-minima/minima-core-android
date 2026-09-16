@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.minimarex.minimacore.launcher.ChooseKeySystemActivity;
 import org.minimarex.minimacore.launcher.LauncherActivity;
 import org.minimarex.minimacore.launcher.StartServiceActivity;
 import org.minimarex.minimacore.utils.logger;
@@ -18,11 +19,15 @@ public class StartActivity extends AppCompatActivity {
 
         logger.log("Start Minima-Core..");
 
-        //Have we already setup..
+        //Use this System..
         SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
+
+        //Have we already setup..
         boolean seedset = prefs.getBoolean("SEED_SET", false);
 
         if(seedset){
+
+            logger.log("Start Minima-Service..");
 
             //Start Main..
             Intent myIntent = new Intent(StartActivity.this, StartServiceActivity.class);
@@ -30,8 +35,10 @@ public class StartActivity extends AppCompatActivity {
 
         }else{
 
+            logger.log("Start Choose..");
+
             //Start Launcher
-            Intent myIntent = new Intent(StartActivity.this, LauncherActivity.class);
+            Intent myIntent = new Intent(StartActivity.this, ChooseKeySystemActivity.class);
             StartActivity.this.startActivity(myIntent);
         }
 

@@ -80,7 +80,7 @@ public class SeedSyncServiceActivity extends AppCompatActivity implements Servic
 
                 //Get Key uses..
                 SharedPreferences pref  = getSharedPreferences("main_prefs",MODE_PRIVATE);
-                int keyuses = pref.getInt("KEYUSES",-1);
+                int keyuses = pref.getInt("KEYUSES",0);
 
                 //Now run command to create ALL key uses..
                 MinimaCMD.runMinima("keys action:createallkeys keyuses:"+keyuses, new MinimaCMDListener() {

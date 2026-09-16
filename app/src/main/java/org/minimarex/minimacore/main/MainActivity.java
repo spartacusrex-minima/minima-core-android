@@ -71,11 +71,16 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     TextView mFooterLeft;
     TextView mFooterRight;
 
+    boolean BLOCK_AS_KEYUSES = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         MAIN_ACTIVITY = this;
+
+        SharedPreferences pref  = getSharedPreferences("main_prefs",MODE_PRIVATE);
+        BLOCK_AS_KEYUSES        = pref.getBoolean("BLOCKS_AS_KEYUSES", false);
 
         //Start the Service..
         startMinimaService();
@@ -97,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         setSupportActionBar(tb);
 
         mFooterLeft  = findViewById(R.id.main_footer_left);
+        if(BLOCK_AS_KEYUSES){
+            mFooterLeft.setText("");
+        }
         mFooterRight = findViewById(R.id.main_footer_right);
 
         mMainAdapter = new MainAdapter(this);
@@ -391,9 +399,10 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         //reset prefs..
         SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("SEED_SET", false);
-        editor.putString("SEED", "");
-        editor.putInt("KEYUSES", 0);
+//        editor.putBoolean("SEED_SET", false);
+//        editor.putString("SEED", "");
+//        editor.putInt("KEYUSES", 0);
+        editor.clear();
         editor.commit();
     }
 
@@ -449,23 +458,26 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         });
 
         //Run some Minima Commands..
-        MinimaCMD.runMinima("keys", new MinimaCMDListener() {
-            @Override
-            public void cmdResult(JSONObject zResult) {
-                mFooterLeft.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            JSONObject resp = (JSONObject) zResult.get("response");
-                            int maxuses     = (int) resp.get("maxuses");
+        if(!BLOCK_AS_KEYUSES) {
+            MinimaCMD.runMinima("keys", new MinimaCMDListener() {
+                @Override
+                public void cmdResult(JSONObject zResult) {
+                    mFooterLeft.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                JSONObject resp = (JSONObject) zResult.get("response");
+                                int maxuses = (int) resp.get("maxuses");
 
-                            mFooterLeft.setText("Key Uses:"+maxuses);
+                                mFooterLeft.setText("Key Uses:" + maxuses);
 
-                        }catch(Exception exc){}
-                    }
-                });
-            }
-        });
+                            } catch (Exception exc) {
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 
     @Override
