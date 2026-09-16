@@ -372,11 +372,16 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     public void wipeMinima(){
 
+        String message = "Make sure you have backed up your seed and key uses!";
+        if(BLOCK_AS_KEYUSES){
+            message = "Make sure you have backed up your seed!";
+        }
+
         new AlertDialog.Builder(this)
                 .setTitle("Confirm")
                 .setMessage("You are about to RESET Minima!\n\n" +
                         "This will wipe ALL DATA..\n\n" +
-                        "Make sure you have backed up your seed and key uses!\n\n" +
+                        message+"\n\n" +
                         "Are you sure ?")
                 .setIcon(R.drawable.ic_minima)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener(){
@@ -399,9 +404,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         //reset prefs..
         SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-//        editor.putBoolean("SEED_SET", false);
-//        editor.putString("SEED", "");
-//        editor.putInt("KEYUSES", 0);
         editor.clear();
         editor.commit();
     }
