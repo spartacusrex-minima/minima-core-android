@@ -3,11 +3,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="#DDFFDD" />
+    <solid android:color="@color/rounded_green" />
 
     <stroke
         android:width="2dp"
-        android:color="#00FF00" />
+        android:color="@color/rounded_green_edge" />
 
     <padding
         android:bottom="8dp"

@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         //Start the Service..
         startMinimaService();
 
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        //Test Night Mode..
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);

@@ -29,7 +29,6 @@
       <TextView
           android:id="@+id/balance_tokenid"
           android:paddingTop="8dp"
-          android:textColor="#777777"
           android:textSize="12dp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>

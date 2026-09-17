@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="rounded_blue_edge">#DDDDFF</color>
+    <color name="rounded_blue">#0000FF</color>
+
+    <color name="rounded_red_edge">#FFDDDD</color>
+    <color name="rounded_red">#770000</color>
+
+    <color name="rounded_green_edge">#DDFFDD</color>
+    <color name="rounded_green">#007700</color>
+
+    <color name="rounded_yellow_edge">#FFFFDD</color>
+    <color name="rounded_yellow">#777700</color>
+
+</resources>
