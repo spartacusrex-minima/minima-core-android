@@ -27,6 +27,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -43,7 +44,9 @@ import org.minima.system.params.GeneralParams;
 import org.minima.utils.MiniFile;
 import org.minima.utils.json.JSONObject;
 import org.minimarex.minimacore.R;
+import org.minimarex.minimacore.main.views.apps.AppsActivity;
 import org.minimarex.minimacore.main.views.terminal.TerminalActivity;
+import org.minimarex.minimacore.receiver.ReceiverDB;
 import org.minimarex.minimacore.service.MinimaService;
 import org.minimarex.minimacore.service.MinimaServiceListener;
 import org.minimarex.minimacore.utils.MinimaCMD;
@@ -72,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     TextView mFooterRight;
 
     boolean BLOCK_AS_KEYUSES = false;
+
+    //Kepp here for other activities to access
+    public static ReceiverDB RECEIVER_DB = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,6 +249,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 //                addPeerDialog();
 //
 //                return true;
+
+            case R.id.mainmenu_applications:
+
+                //addPeerDialog();
+                MainActivity.this.startActivity(new Intent(MainActivity.this, AppsActivity.class));
+
+                return true;
 
             case R.id.mainmenu_terminal :
 
@@ -494,6 +507,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         mMinimaService.mServiceListener = this;
 
         //Get the Database
+        RECEIVER_DB = mMinimaService.getReceiverDatabase();
         //mMainAdapter.getAppsView().setDatabase(mMinimaService.getReceiverDatabase());
 
         //Now refresh the views..

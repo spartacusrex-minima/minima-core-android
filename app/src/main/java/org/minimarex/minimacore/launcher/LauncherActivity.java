@@ -29,8 +29,6 @@ public class LauncherActivity extends AppCompatActivity {
 
     public static LauncherActivity LAUNCHER_ACTIVITY;
 
-    ReceiverDB mDatabase;
-
     public boolean isNightMode() {
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;

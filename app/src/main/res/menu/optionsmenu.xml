@@ -9,6 +9,12 @@
 <!--        app:showAsAction="never" />-->
 
     <item
+        android:id="@+id/mainmenu_applications"
+        android:orderInCategory="100"
+        android:title="Applications"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/mainmenu_terminal"
         android:orderInCategory="100"
         android:title="Terminal"

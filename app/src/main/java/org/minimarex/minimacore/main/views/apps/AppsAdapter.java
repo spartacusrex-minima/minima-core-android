@@ -14,6 +14,7 @@ import android.widget.TextView;
 import org.minima.utils.json.JSONArray;
 import org.minima.utils.json.JSONObject;
 import org.minimarex.minimacore.R;
+import org.minimarex.minimacore.main.MainActivity;
 import org.minimarex.minimacore.receiver.ReceiverDB;
 import org.minimarex.minimacore.service.MinimaService;
 import org.minimarex.minimacore.utils.TokenUtils;
@@ -35,6 +36,11 @@ public class AppsAdapter extends BaseAdapter {
         super();
         mContext = zContext;
         inflater = (LayoutInflater) zContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        //Get the database..
+        mDatabase = MainActivity.RECEIVER_DB;
+
+        updateValues();
     }
 
     public void setDatabase(ReceiverDB zDatabase){

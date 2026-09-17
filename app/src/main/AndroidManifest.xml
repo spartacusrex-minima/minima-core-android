@@ -60,7 +60,9 @@
         <activity android:name=".launcher.restore.RestoreWalletSyncActivity"></activity>
         <activity android:name=".launcher.restore.SeedSyncServiceActivity"></activity>
         <activity android:name=".main.SeedSyncActivity"></activity>
+
         <activity android:name=".main.views.terminal.TerminalActivity"></activity>
+        <activity android:name=".main.views.apps.AppsActivity"></activity>
 
         <!-- Start the service -->
         <activity android:name=".launcher.StartServiceActivity"></activity>

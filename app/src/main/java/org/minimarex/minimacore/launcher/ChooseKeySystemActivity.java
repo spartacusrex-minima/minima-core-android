@@ -25,8 +25,6 @@ public class ChooseKeySystemActivity extends AppCompatActivity {
 
     public static ChooseKeySystemActivity CHOOSESYSTEM_ACTIVITY;
 
-    ReceiverDB mDatabase;
-
     public boolean isNightMode() {
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;
