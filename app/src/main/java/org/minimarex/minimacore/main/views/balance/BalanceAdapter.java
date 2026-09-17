@@ -70,15 +70,20 @@ public class BalanceAdapter extends BaseAdapter {
         //Amount
         String confirmed    = bal.get("confirmed").toString();
         String unconfirmed  = bal.get("unconfirmed").toString();
-        if(confirmed.length() > 12){
-            confirmed = confirmed.substring(0,12)+"..";
+
+        if(confirmed.length() > 21){
+            confirmed = confirmed.substring(0,21)+"..";
         }
+
         if(unconfirmed.length() > 12){
             unconfirmed = unconfirmed.substring(0,12)+"..";
         }
         if(unconfirmed.equals("0")){
             tokenamount.setText(confirmed);
         }else{
+            if(confirmed.length() > 12){
+                confirmed = confirmed.substring(0,12)+"..";
+            }
             tokenamount.setText(confirmed+"("+unconfirmed+")");
         }
 

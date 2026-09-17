@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         //tabs.getTabAt(0).setIcon(R.drawable.ic_minima);
 
         tabs.getTabAt(0).setText("Balance");
-        tabs.getTabAt(0).setIcon(R.drawable.ic_network);
+        tabs.getTabAt(0).setIcon(R.drawable.ic_minima);
 
         tabs.getTabAt(1).setText("Send");
         tabs.getTabAt(1).setIcon(R.drawable.ic_transfer);
@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         tabs.getTabAt(2).setText("Receive");
         tabs.getTabAt(2).setIcon(R.drawable.ic_freedom);
 
-        tabs.getTabAt(3).setText("Apps");
-        tabs.getTabAt(3).setIcon(R.drawable.ic_dapps);
+        tabs.getTabAt(3).setText("History");
+        tabs.getTabAt(3).setIcon(R.drawable.ic_network);
 
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -453,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
                 long timemilli  = txp.getTimeMilli().getAsLong();
                 Date dd         = new Date(timemilli);
-                String datestr  = MinimaService.DATEFORMAT_TIME.format(new Date(timemilli));
+                String datestr  = MinimaService.DATEFORMAT.format(new Date(timemilli));
 
                 mFooterRight.setText(block+" @ "+datestr);
             }
@@ -494,7 +494,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         mMinimaService.mServiceListener = this;
 
         //Get the Database
-        mMainAdapter.getAppsView().setDatabase(mMinimaService.getReceiverDatabase());
+        //mMainAdapter.getAppsView().setDatabase(mMinimaService.getReceiverDatabase());
 
         //Now refresh the views..
         mMainAdapter.refreshAllViews();

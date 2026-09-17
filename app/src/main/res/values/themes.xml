@@ -3,8 +3,9 @@
     <style name="Base.Theme.MinimaCore" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">#4444ff</item>
-
         <item name="colorOnPrimary">#dddddd</item>
+
+        <item name="android:fontFamily">@font/manroperegular</item>
 
 
 <!--        <item name="android:textColorSecondary">#333333</item>-->

@@ -258,8 +258,8 @@ public class MinimaService extends Service {
         vars.add("-lowram");
 
         //TESTER HACK
-//        vars.add("-clean");
-//        vars.add("-solo");
+        //vars.add("-clean");
+        vars.add("-solo");
 
         vars.add("-nosyncibd");
 

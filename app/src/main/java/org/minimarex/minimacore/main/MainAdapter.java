@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import org.minimarex.minimacore.main.views.apps.AppsView;
 import org.minimarex.minimacore.main.views.balance.BalanceView;
+import org.minimarex.minimacore.main.views.history.HistoryView;
 import org.minimarex.minimacore.main.views.home.HomeView;
 import org.minimarex.minimacore.main.views.receive.ReceiveView;
 import org.minimarex.minimacore.main.views.send.SendView;
@@ -33,7 +34,7 @@ public class MainAdapter extends androidx.viewpager.widget.PagerAdapter {
         mAllViews[0] = new BalanceView(mActivity);
         mAllViews[1] = new SendView(mActivity);
         mAllViews[2] = new ReceiveView(mActivity);
-        mAllViews[3] = new AppsView(mActivity);
+        mAllViews[3] = new HistoryView(mActivity);
     }
 
     public void refreshPagerView(int zPosition){
