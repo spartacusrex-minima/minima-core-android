@@ -1,6 +1,8 @@
 package org.minimarex.minimacore.main.views.history;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,6 +12,8 @@ import org.minima.utils.MinimaLogger;
 import org.minima.utils.json.JSONArray;
 import org.minima.utils.json.JSONObject;
 import org.minimarex.minimacore.R;
+import org.minimarex.minimacore.launcher.newwallet.NewWalletActivity;
+import org.minimarex.minimacore.launcher.newwallet.NewWalletRestoreActivity;
 import org.minimarex.minimacore.main.BaseView;
 import org.minimarex.minimacore.utils.MinimaCMD;
 import org.minimarex.minimacore.utils.MinimaCMDListener;
@@ -37,9 +41,19 @@ public class HistoryView extends BaseView {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //Get the selecetd app
-                JSONObject app = (JSONObject) mHistoryAdapter.getItem(position);
+                //JSONObject app = (JSONObject) mHistoryAdapter.getItem(position);
 
-                //showInfoDialog(app);
+                //Get the txpowid
+                JSONArray alltxpow = (JSONArray) mCurrentHistory.get("txpows");
+                JSONObject txpow = (JSONObject) alltxpow.get(position);
+                String txpowid = txpow.getString("txpowid");
+
+                //Jump to restore wallet..
+                Intent myIntent = new Intent(getActivity(), TxPowViewer.class);
+                Bundle params = new Bundle();
+                params.putString("txpowid",txpowid);
+                myIntent.putExtras(params);
+                getActivity().startActivity(myIntent);
             }
         });
     }
@@ -61,8 +75,6 @@ public class HistoryView extends BaseView {
 
                 //Has it changed.. ?
                 JSONArray alltxpow = (JSONArray) history.get("txpows");
-
-                logger.log("HISTORY SIZE : "+alltxpow.size());
 
                 boolean needrefresh = false;
                 if(alltxpow.size()>0){

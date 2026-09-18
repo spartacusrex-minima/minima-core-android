@@ -89,8 +89,6 @@ public class LauncherActivity extends AppCompatActivity {
                     Intent myIntent = new Intent(LauncherActivity.this, RestoreWalletSyncActivity.class);
                     LauncherActivity.this.startActivity(myIntent);
                 }
-
-
             }
         });
     }

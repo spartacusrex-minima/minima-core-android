@@ -64,6 +64,8 @@
         <activity android:name=".main.views.terminal.TerminalActivity"></activity>
         <activity android:name=".main.views.apps.AppsActivity"></activity>
 
+        <activity android:name=".main.views.history.TxPowViewer"></activity>
+
         <!-- Start the service -->
         <activity android:name=".launcher.StartServiceActivity"></activity>
 
