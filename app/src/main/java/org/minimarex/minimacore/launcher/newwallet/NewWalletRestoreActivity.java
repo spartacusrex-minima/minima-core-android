@@ -102,7 +102,7 @@ public class NewWalletRestoreActivity extends AppCompatActivity {
                 NewWalletRestoreActivity.this.startActivity(myIntent);
 
                 //Close the main Launchers
-                ChooseKeySystemActivity.CHOOSESYSTEM_ACTIVITY.finish();
+                //ChooseKeySystemActivity.CHOOSESYSTEM_ACTIVITY.finish();
                 LauncherActivity.LAUNCHER_ACTIVITY.finish();
 
                 finish();

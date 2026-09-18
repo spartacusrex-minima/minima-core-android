@@ -96,7 +96,7 @@ public class RestoreBlockAsKeysSyncActivity extends AppCompatActivity {
                 RestoreBlockAsKeysSyncActivity.this.startActivity(myIntent);
 
                 //Close the main Laumcher
-                ChooseKeySystemActivity.CHOOSESYSTEM_ACTIVITY.finish();
+                //ChooseKeySystemActivity.CHOOSESYSTEM_ACTIVITY.finish();
                 LauncherActivity.LAUNCHER_ACTIVITY.finish();
 
                 finish();
