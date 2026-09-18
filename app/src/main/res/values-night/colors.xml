@@ -3,16 +3,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="rounded_blue_edge">#DDDDFF</color>
-    <color name="rounded_blue">#0000FF</color>
+    <color name="rounded_blue">#1E1B4B</color>
+    <color name="rounded_blue_edge">#312E81</color>
 
-    <color name="rounded_red_edge">#FFDDDD</color>
-    <color name="rounded_red">#770000</color>
+    <color name="rounded_red">#450A0A</color>
+    <color name="rounded_red_edge">#7F1D1D</color>
 
-    <color name="rounded_green_edge">#DDFFDD</color>
-    <color name="rounded_green">#007700</color>
+    <color name="rounded_green">#052E16</color>
+    <color name="rounded_green_edge">#14532D</color>
 
-    <color name="rounded_yellow_edge">#FFFFDD</color>
-    <color name="rounded_yellow">#777700</color>
+    <color name="rounded_yellow">#3D3600</color>
+    <color name="rounded_yellow_edge">#8A7C00</color>
 
 </resources>

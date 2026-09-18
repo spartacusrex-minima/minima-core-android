@@ -5,33 +5,46 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/screen_margin"
     tools:context=".main.MainActivity">
 
-    <View
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="@dimen/spacing_large"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp">
+
+        <ImageView
+            android:id="@+id/wallet_receive_qrcode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="QR code with wallet address"
+            android:padding="20dp"
+            android:scaleType="fitCenter"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/wallet_receive_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textIsSelectable="true"
+        android:textSize="12sp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/wallet_receive_changeaddress"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"/>
-
-    <ImageView
-          android:id="@+id/wallet_receive_qrcode"
-          android:layout_width="280dp"
-          android:layout_height="300dp"/>
-
-      <TextView
-          android:id="@+id/wallet_receive_address"
-          android:layout_width="250dp"
-          android:layout_height="wrap_content"
-          android:textIsSelectable="true"
-          android:gravity="center"
-          android:paddingTop="20dp"
-          android:paddingBottom="20dp"
-          android:text=""/>
-
-      <Button
-          android:id="@+id/wallet_receive_changeaddress"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Change Address"/>
+        android:layout_height="wrap_content"
+        android:text="Change Address"/>
 
 </LinearLayout>

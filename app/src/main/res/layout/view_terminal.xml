@@ -7,47 +7,51 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-   <LinearLayout
-       android:id="@+id/terminal_bottomrow"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal"
-       android:layout_alignParentBottom="true">
+    <ScrollView
+        android:id="@+id/terminal_scroller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/terminal_bottomrow">
 
-      <EditText
-          android:id="@+id/terminal_input"
-          android:layout_weight="1"
-          android:singleLine="true"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/terminal_maintext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/terminal_bottomrow"
+            android:focusable="true"
+            android:gravity="bottom"
+            android:longClickable="true"
+            android:scrollHorizontally="false"
+            android:text=""
+            android:textColor="?attr/colorOnSurface"
+            android:textIsSelectable="true"
+            android:textSize="14sp"/>
 
-      <Button
-          android:id="@+id/terminal_send"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Run"/>
+    </ScrollView>
 
-   </LinearLayout>
+    <LinearLayout
+        android:id="@+id/terminal_bottomrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/colorSurfaceContainerLow"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_small">
 
-   <ScrollView
-       android:id="@+id/terminal_scroller"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_above="@+id/terminal_bottomrow">
+        <EditText
+            android:id="@+id/terminal_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:textColor="?attr/colorOnSurface"/>
 
-      <TextView
-          android:id="@+id/terminal_maintext"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:scrollHorizontally="false"
-          android:textSize="14dp"
-          android:gravity="bottom"
-          android:textIsSelectable="true"
-          android:focusable="true"
-          android:longClickable="true"
-          android:layout_above="@+id/terminal_bottomrow"
-          android:text=""/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/terminal_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Run"/>
 
-   </ScrollView>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -5,64 +5,81 @@
     android:id="@+id/newwallet_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".main.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        app:titleTextColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:elevation="0dp"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_marginLeft="@dimen/screen_margin"
+        android:layout_marginRight="@dimen/screen_margin"
+        android:gravity="center"
+        android:paddingTop="@dimen/spacing_large"
+        android:text="Here is your NEW generated Seed"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="@dimen/spacing_small"
+        android:text="DO NOT LOSE IT!"
+        android:textColor="?attr/colorError"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="@dimen/spacing_medium"
+        android:text="( You will need this on the next screen.. )"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="14sp"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/screen_margin"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginRight="@dimen/screen_margin"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="0dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp">
+
+        <TextView
+            android:id="@+id/newwallet_seed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp"
+            android:gravity="center"
+            android:text=""
+            android:textColor="?attr/colorOnSurface"
+            android:textIsSelectable="true"
+            android:textSize="18sp"/>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <View
         android:layout_width="20dp"
-        android:layout_height="20dp"/>
+        android:layout_height="@dimen/spacing_large"/>
 
-<!--    <TextView-->
-<!--        android:layout_width="300dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="center"-->
-<!--        android:paddingTop="10dp"-->
-<!--        android:textSize="24dp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:text="New Wallet"/>-->
-
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="20dp"
-        android:textSize="20dp"
-        android:text="Here is your NEW generated Seed\n\nDO NOT LOSE IT!"/>
-
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="10dp"
-        android:textSize="16dp"
-        android:textColor="#999999"
-        android:text="( You will need this on the next screen.. )"/>
-
-    <TextView
-        android:id="@+id/newwallet_seed"
-        android:textIsSelectable="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="40dp"
-        android:textSize="20dp"
-        android:text=""/>
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/newwallet_button_proceed"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:text="Proceed"/>
 

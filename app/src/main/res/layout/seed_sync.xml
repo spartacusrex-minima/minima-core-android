@@ -5,60 +5,70 @@
     android:id="@+id/sync_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".main.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        app:titleTextColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:elevation="0dp"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <View
+        android:layout_width="20dp"
+        android:layout_height="80dp"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:gravity="center"
+        android:paddingTop="40dp"
+        android:text="Resync Wallet"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/screen_margin"
+        android:layout_marginRight="@dimen/screen_margin"
+        android:gravity="center"
+        android:paddingTop="@dimen/spacing_medium"
+        android:paddingBottom="@dimen/spacing_large"
+        android:text="Choose a Minima MegaMMR node to resync your node\n\nThe format will be host:port"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="16sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/seed_sync_host_layout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/screen_margin"
+        android:layout_marginRight="@dimen/screen_margin"
+        android:hint="Host:Port">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/seed_sync_host"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textSize="16sp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <View
         android:layout_width="20dp"
-        android:layout_height="100dp"/>
+        android:layout_height="@dimen/spacing_medium"/>
 
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="30dp"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        android:text="Resync Wallet"/>
-
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
-        android:textSize="20dp"
-        android:text="Choose a Minima MegaMMR node to resync your node\n\nThe format will be host:port"/>
-
-    <EditText
-        android:id="@+id/seed_sync_host"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:text=""/>
-
-    <View
-        android:layout_width="20dp"
-        android:layout_height="30dp"/>
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/seed_sync_proceed"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:text="Resync Node"/>
 

@@ -75,20 +75,20 @@ public class LauncherActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                SharedPreferences pref  = getSharedPreferences("main_prefs",MODE_PRIVATE);
-
-                //Are we using the NEW systen..
-                if(pref.getBoolean("BLOCKS_AS_KEYUSES", false)){
+//                SharedPreferences pref  = getSharedPreferences("main_prefs",MODE_PRIVATE);
+//
+//                //Are we using the NEW systen..
+//                if(pref.getBoolean("BLOCKS_AS_KEYUSES", false)){
 
                     //Start new activity - NO Key Uses..
                     Intent myIntent = new Intent(LauncherActivity.this, RestoreBlockAsKeysSyncActivity.class);
                     LauncherActivity.this.startActivity(myIntent);
 
-                }else{
-                    //Start ORIGINAL new activity - with Key Uses..
-                    Intent myIntent = new Intent(LauncherActivity.this, RestoreWalletSyncActivity.class);
-                    LauncherActivity.this.startActivity(myIntent);
-                }
+//                }else{
+//                    //Start ORIGINAL new activity - with Key Uses..
+//                    Intent myIntent = new Intent(LauncherActivity.this, RestoreWalletSyncActivity.class);
+//                    LauncherActivity.this.startActivity(myIntent);
+//                }
             }
         });
     }

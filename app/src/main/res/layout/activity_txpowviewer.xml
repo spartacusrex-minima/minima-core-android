@@ -5,33 +5,33 @@
     android:id="@+id/sync_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".main.MainActivity">
 
-   <androidx.appcompat.widget.Toolbar
-       android:id="@+id/toolbar"
-       app:titleTextColor="@color/white"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:background="?attr/colorPrimary"
-       android:minHeight="?attr/actionBarSize"
-       android:theme="?attr/actionBarTheme"
-       tools:layout_editor_absoluteX="0dp"
-       tools:layout_editor_absoluteY="0dp" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:elevation="0dp"
+        app:titleTextColor="?attr/colorOnSurface" />
 
-   <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/screen_margin">
 
-      <TextView
-          android:id="@+id/txpowviewer_json"
-          android:textIsSelectable="true"
-          android:focusable="true"
-          android:longClickable="true"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/txpowviewer_json"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:longClickable="true"
+            android:textColor="?attr/colorOnSurface"
+            android:textIsSelectable="true"
+            android:textSize="12sp" />
 
-   </ScrollView>
+    </ScrollView>
 
 </LinearLayout>

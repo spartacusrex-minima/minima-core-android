@@ -2,39 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="20dp" >
 
-   <View
-       android:layout_width="20dip"
-       android:layout_height="4dip"/>
+    <TextView
+        android:id="@+id/app_info_package"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text=""
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="14sp"/>
 
-   <TextView
-       android:id="@+id/app_info_package"
-       android:textSize="16dp"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text=""/>
+    <CheckBox
+        android:id="@+id/app_info_enabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Enabled"/>
 
-   <View
-       android:layout_width="20dip"
-       android:layout_height="8dip"/>
+    <CheckBox
+        android:id="@+id/app_info_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin"/>
 
-   <CheckBox android:id="@+id/app_info_enabled"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="Enabled" />
-
-   <CheckBox android:id="@+id/app_info_admin"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="Admin" />
-
-   <TextView
-       android:textSize="14dp"
-       android:paddingTop="10dp"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="Do NOT enable ADMIN unless you trust the App"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:text="Do NOT enable ADMIN unless you trust the App"
+        android:textColor="?attr/colorError"
+        android:textSize="14sp"/>
 
 </LinearLayout>

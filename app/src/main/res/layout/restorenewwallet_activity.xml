@@ -5,105 +5,65 @@
     android:id="@+id/restorewallet_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".main.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        app:titleTextColor="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
-
-    <View
-        android:layout_width="20dp"
-        android:layout_height="20dp"/>
-
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="center"-->
-<!--        android:paddingTop="10dp"-->
-<!--        android:layout_marginLeft="20dp"-->
-<!--        android:layout_marginRight="20dp"-->
-<!--        android:textSize="24dp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:text="New Wallet"/>-->
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:elevation="0dp"
+        app:titleTextColor="?attr/colorOnSurface" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/screen_margin"
+        android:layout_marginRight="@dimen/screen_margin"
         android:gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="30dp"
-        android:textSize="20dp"
-        android:text="Please type in your seed phrase"/>
+        android:paddingTop="@dimen/spacing_large"
+        android:paddingBottom="@dimen/spacing_large"
+        android:text="Please type in your seed phrase"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="18sp"/>
 
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/restorewallet_seed_layout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:paddingTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:text="Seed : "/>
+        android:layout_marginLeft="@dimen/screen_margin"
+        android:layout_marginRight="@dimen/screen_margin"
+        android:hint="Seed">
 
-    <EditText
-        android:id="@+id/restorewallet_seed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:gravity="left"
-        android:textSize="20dp"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/restorewallet_seed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="16sp"/>
 
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="left"-->
-<!--        android:layout_marginLeft="20dp"-->
-<!--        android:layout_marginRight="20dp"-->
-<!--        android:paddingTop="20dp"-->
-<!--        android:textSize="20dp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:text="Minima Node : "/>-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/newwallet_megammr"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginLeft="20dp"-->
-<!--        android:layout_marginRight="20dp"-->
-<!--        android:gravity="left"-->
-<!--        android:text="spartacusrex.com:9001"-->
-<!--        android:textSize="20dp"/>-->
+    </com.google.android.material.textfield.TextInputLayout>
 
     <View
         android:layout_width="20dp"
-        android:layout_height="30dp"/>
+        android:layout_height="@dimen/spacing_medium"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/restorewallet_button_check"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:text="Check Word List"/>
 
     <View
         android:layout_width="20dp"
-        android:layout_height="30dp"/>
+        android:layout_height="@dimen/spacing_medium"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/restorewallet_button_proceed"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:text="Proceed"/>
 

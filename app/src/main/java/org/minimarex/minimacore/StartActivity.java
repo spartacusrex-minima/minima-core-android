@@ -38,7 +38,7 @@ public class StartActivity extends AppCompatActivity {
             logger.log("Start Choose..");
 
             //Start Launcher
-            Intent myIntent = new Intent(StartActivity.this, ChooseKeySystemActivity.class);
+            Intent myIntent = new Intent(StartActivity.this, LauncherActivity.class);
             StartActivity.this.startActivity(myIntent);
         }
 

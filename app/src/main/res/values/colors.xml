@@ -4,16 +4,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="rounded_blue">#DDDDFF</color>
-    <color name="rounded_blue_edge">#0000FF</color>
+    <color name="rounded_blue">#F0F4FF</color>
+    <color name="rounded_blue_edge">#D6E0FF</color>
 
-    <color name="rounded_red">#FFDDDD</color>
-    <color name="rounded_red_edge">#FF0000</color>
+    <color name="rounded_red">#FFF1F2</color>
+    <color name="rounded_red_edge">#FECDD3</color>
 
-    <color name="rounded_green">#DDFFDD</color>
-    <color name="rounded_green_edge">#00FF00</color>
+    <color name="rounded_green">#F0FDF4</color>
+    <color name="rounded_green_edge">#BBF7D0</color>
 
-    <color name="rounded_yellow">#FFFFDD</color>
-    <color name="rounded_yellow_edge">#FFFF00</color>
+    <color name="rounded_yellow">#FFFBEB</color>
+    <color name="rounded_yellow_edge">#FDE68A</color>
 
 </resources>

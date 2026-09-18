@@ -1,7 +1,56 @@
-
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- <style name="Base.Theme.MinimaCore" parent="Theme.Material3.DayNight.NoActionBar">
-    </style>-->
+    <style name="Base.Theme.MinimaCore" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- Primary / Brand Blue -->
+        <item name="colorPrimary">#818CF8</item>
+        <item name="colorOnPrimary">#0000CC</item>
+        <item name="colorPrimaryContainer">#2D2A9E</item>
+        <item name="colorOnPrimaryContainer">#E0DEFF</item>
+
+        <!-- Secondary -->
+        <item name="colorSecondary">#C6D0F7</item>
+        <item name="colorOnSecondary">#273141</item>
+        <item name="colorSecondaryContainer">#3E4758</item>
+        <item name="colorOnSecondaryContainer">#DCE2F9</item>
+
+        <!-- Tertiary -->
+        <item name="colorTertiary">#6EE7B7</item>
+        <item name="colorOnTertiary">#064E3B</item>
+        <item name="colorTertiaryContainer">#065F46</item>
+        <item name="colorOnTertiaryContainer">#D1FAE5</item>
+
+        <!-- Error -->
+        <item name="colorError">#FCA5A5</item>
+        <item name="colorOnError">#7F1D1D</item>
+        <item name="colorErrorContainer">#991B1B</item>
+        <item name="colorOnErrorContainer">#FEE2E2</item>
+
+        <!-- Surfaces -->
+        <item name="colorSurface">#1C1B1F</item>
+        <item name="colorOnSurface">#E6E1E5</item>
+        <item name="colorSurfaceVariant">#49454F</item>
+        <item name="colorOnSurfaceVariant">#CAC4D0</item>
+        <item name="colorSurfaceContainerLowest">#0F0D13</item>
+        <item name="colorSurfaceContainerLow">#242126</item>
+        <item name="colorSurfaceContainer">#2B292E</item>
+        <item name="colorSurfaceContainerHigh">#363438</item>
+        <item name="colorSurfaceContainerHighest">#414044</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">#938F99</item>
+        <item name="colorOutlineVariant">#49454F</item>
+
+        <!-- Background / Windows -->
+        <item name="android:colorBackground">#121212</item>
+        <item name="android:fontFamily">@font/manroperegular</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <!-- Text input style -->
+        <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox</item>
+
+    </style>
 
 </resources>

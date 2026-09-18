@@ -6,58 +6,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="@dimen/screen_margin"
     tools:context=".main.MainActivity">
 
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textSize="@dimen/wallet_send_header_size"
-          android:textStyle="bold"
-          android:text="Token : "/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/wallet_send_token_layout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Token">
 
-      <Spinner
-          android:id="@+id/wallet_send_tokens"
-          android:textSize="@dimen/wallet_send_header_size"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"/>
+        <AutoCompleteTextView
+            android:id="@+id/wallet_send_tokens"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Token"
+            android:inputType="none"/>
 
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:paddingTop="20dp"
-          android:textSize="@dimen/wallet_send_header_size"
-          android:textStyle="bold"
-          android:text="Amount : "/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-      <EditText
-          android:id="@+id/wallet_send_amount"
-          android:inputType="numberDecimal"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/wallet_send_amount_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:hint="Amount">
 
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:paddingTop="20dp"
-          android:textSize="@dimen/wallet_send_header_size"
-          android:textStyle="bold"
-          android:text="Address : "/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/wallet_send_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
 
-      <EditText
-          android:id="@+id/wallet_send_address"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-      <View
-          android:layout_width="wrap_content"
-          android:layout_height="20dp"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/wallet_send_address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:hint="Address">
 
-      <Button
-          android:id="@+id/wallet_send_sendbutton"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:text="Send Funds"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/wallet_send_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/spacing_large"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/wallet_send_sendbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Funds"/>
 
 </LinearLayout>

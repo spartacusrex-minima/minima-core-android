@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -74,8 +73,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     TextView mFooterLeft;
     TextView mFooterRight;
 
-    boolean BLOCK_AS_KEYUSES = false;
-
     //Kepp here for other activities to access
     public static ReceiverDB RECEIVER_DB = null;
 
@@ -86,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         MAIN_ACTIVITY = this;
 
         SharedPreferences pref  = getSharedPreferences("main_prefs",MODE_PRIVATE);
-        BLOCK_AS_KEYUSES        = pref.getBoolean("BLOCKS_AS_KEYUSES", false);
 
         //Start the Service..
         startMinimaService();
 
-        //Test Night Mode..
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        //Follow the system night mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -103,15 +100,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         });
 
         Toolbar tb = findViewById(R.id.toolbar);
-        tb.setTitle("Minima-Core");
-        tb.getOverflowIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        tb.setTitle("Minima");
 
         setSupportActionBar(tb);
 
         mFooterLeft  = findViewById(R.id.main_footer_left);
-        if(BLOCK_AS_KEYUSES){
-            mFooterLeft.setText("");
-        }
+        mFooterLeft.setText("");
+
         mFooterRight = findViewById(R.id.main_footer_right);
 
         mMainAdapter = new MainAdapter(this);
@@ -386,10 +381,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     public void wipeMinima(){
 
-        String message = "Make sure you have backed up your seed and key uses!";
-        if(BLOCK_AS_KEYUSES){
-            message = "Make sure you have backed up your seed!";
-        }
+        String message = "Make sure you have backed up your seed!";
 
         new AlertDialog.Builder(this)
                 .setTitle("Confirm")
@@ -473,27 +465,28 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             }
         });
 
-        //Run some Minima Commands..
-        if(!BLOCK_AS_KEYUSES) {
-            MinimaCMD.runMinima("keys", new MinimaCMDListener() {
-                @Override
-                public void cmdResult(JSONObject zResult) {
-                    mFooterLeft.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                JSONObject resp = (JSONObject) zResult.get("response");
-                                int maxuses = (int) resp.get("maxuses");
+//        //Run some Minima Commands..
+//        if(!BLOCK_AS_KEYUSES) {
+//            MinimaCMD.runMinima("keys", new MinimaCMDListener() {
+//                @Override
+//                public void cmdResult(JSONObject zResult) {
+//                    mFooterLeft.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            try {
+//                                JSONObject resp = (JSONObject) zResult.get("response");
+//                                int maxuses = (int) resp.get("maxuses");
+//
+//                                mFooterLeft.setText("Key Uses:" + maxuses);
+//
+//                            } catch (Exception exc) {
+//                            }
+//                        }
+//                    });
+//                }
+//            });
+//        }
 
-                                mFooterLeft.setText("Key Uses:" + maxuses);
-
-                            } catch (Exception exc) {
-                            }
-                        }
-                    });
-                }
-            });
-        }
     }
 
     @Override

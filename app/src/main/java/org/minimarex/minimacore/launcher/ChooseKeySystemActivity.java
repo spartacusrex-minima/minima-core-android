@@ -62,10 +62,10 @@ public class ChooseKeySystemActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Use this System..
-                SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("BLOCKS_AS_KEYUSES", true);
-                editor.commit();
+//                SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
+//                SharedPreferences.Editor editor = prefs.edit();
+//                editor.putBoolean("BLOCKS_AS_KEYUSES", true);
+//                editor.commit();
 
                 //Start new activity
                 Intent myIntent = new Intent(ChooseKeySystemActivity.this, LauncherActivity.class);
@@ -79,10 +79,10 @@ public class ChooseKeySystemActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Use this System..
-                SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("BLOCKS_AS_KEYUSES", false);
-                editor.commit();
+//                SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
+//                SharedPreferences.Editor editor = prefs.edit();
+//                editor.putBoolean("BLOCKS_AS_KEYUSES", false);
+//                editor.commit();
 
                 //Start new activity
                 Intent myIntent = new Intent(ChooseKeySystemActivity.this, RestoreWalletSyncActivity.class);

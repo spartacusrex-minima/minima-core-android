@@ -257,6 +257,9 @@ public class MinimaService extends Service {
         //NEW LOW RAM!
         vars.add("-lowram");
 
+        //Use BLOCK as key uses!
+        vars.add("-blockaskeyuses");
+
         //TESTER HACK
         //vars.add("-clean");
         //vars.add("-solo");
@@ -268,13 +271,13 @@ public class MinimaService extends Service {
         //Are there any EXTRA params..
         SharedPreferences pref  = getSharedPreferences("main_prefs",MODE_PRIVATE);
 
-        //Are we using the NEW systen..
-        if(pref.getBoolean("BLOCKS_AS_KEYUSES", false)){
-            MinimaLogger.log("USING BLOCKS AS KEY USES!");
-            vars.add("-blockaskeyuses");
-        }else{
-            MinimaLogger.log("USING LEGACY KEY USES!");
-        }
+//        //Are we using the NEW systen..
+//        if(pref.getBoolean("BLOCKS_AS_KEYUSES", false)){
+//            MinimaLogger.log("USING BLOCKS AS KEY USES!");
+//            vars.add("-blockaskeyuses");
+//        }else{
+//            MinimaLogger.log("USING LEGACY KEY USES!");
+//        }
 
         //Add the seed
         vars.add("-anyseed");

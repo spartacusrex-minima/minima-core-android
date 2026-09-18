@@ -5,20 +5,17 @@
     android:id="@+id/launcher_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".main.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        app:titleTextColor="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:elevation="0dp"
+        app:titleTextColor="?attr/colorOnSurface" />
 
     <View
         android:layout_width="20dp"
@@ -26,51 +23,59 @@
 
     <ImageView
         android:id="@+id/launcher_mainicon"
-        android:src="@drawable/ic_minima"
         android:layout_width="140dp"
-        android:layout_height="140dp"/>
+        android:layout_height="140dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_minima"/>
 
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingTop="30dp"
-        android:paddingBottom="10dp"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:text="Welcome to Minima"/>
+        android:paddingTop="40dp"
+        android:paddingBottom="16dp"
+        android:text="Welcome to Minima"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
 
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:gravity="center"
-        android:paddingTop="10dp"
-        android:paddingBottom="0dp"
-        android:textSize="18dp"
-        android:text="Choose your base keys system\n\nWe recommend the NEW System\n"/>
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Choose your base keys system\n\nWe recommend the NEW System"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="16sp"/>
 
     <TextView
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:gravity="center"
-        android:paddingTop="0dp"
-        android:paddingBottom="50dp"
-        android:textSize="14dp"
-        android:text="( Legacy for old Minima and Web Wallet seeds )"/>
+        android:paddingTop="8dp"
+        android:paddingBottom="48dp"
+        android:text="( Legacy for old Minima and Web Wallet seeds )"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="13sp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/launcher_button_newsystem"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:text="New System"/>
 
     <View
         android:layout_width="20dp"
-        android:layout_height="20dp"/>
+        android:layout_height="@dimen/spacing_medium"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/launcher_button_legacy"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:text="Legacy"/>
 

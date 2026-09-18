@@ -4,9 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +24,7 @@ public class SendView extends BaseView {
     TextView mAddress;
 
     Button mSendButton;
-    Spinner mTokens;
+    AutoCompleteTextView mTokens;
 
     TokenSpinnerAdapter mTokenAdapter;
 
@@ -38,14 +37,8 @@ public class SendView extends BaseView {
         mTokenAdapter = new TokenSpinnerAdapter(zActivity);
         mTokens.setAdapter(mTokenAdapter);
 
-        mTokens.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mChosenToken = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+        mTokens.setOnItemClickListener((parent, view, position, id) -> {
+            mChosenToken = position;
         });
 
         mAmount     = getMainView().findViewById(R.id.wallet_send_amount);
