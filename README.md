@@ -5,6 +5,9 @@ This is a simple clean Minima client that runs in full on Android
 
 Fully non-custodial with wallet functionality
 
+BEST OF ALL - this fixes 'keyuses' so that the current block ( with an extra counter for overlap ) is used for the key uses value. 
+This requires a larger key than Classic Minima so the generated addresses are different for old legacy seeds.
+
 You also have the miniaapi.aar - an Android lib that allows your own applications to talk to Minima Core.
 
 Simply load the minimaapi.aar module/lib into your project.
