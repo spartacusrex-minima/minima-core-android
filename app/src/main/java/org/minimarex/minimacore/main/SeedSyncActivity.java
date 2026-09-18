@@ -42,7 +42,7 @@ public class SeedSyncActivity extends AppCompatActivity {
         });
 
         Toolbar tb = findViewById(R.id.toolbar);
-        tb.setTitle("Minima-Core");
+        tb.setTitle("Minima");
         setSupportActionBar(tb);
 
         mHost = findViewById(R.id.seed_sync_host);

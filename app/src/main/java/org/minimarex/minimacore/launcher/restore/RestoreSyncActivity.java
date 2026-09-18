@@ -18,14 +18,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import org.minima.utils.BIP39;
 import org.minimarex.minimacore.R;
-import org.minimarex.minimacore.launcher.ChooseKeySystemActivity;
 import org.minimarex.minimacore.launcher.LauncherActivity;
-import org.minimarex.minimacore.utils.logger;
 
-public class RestoreWalletSyncActivity extends AppCompatActivity {
+public class RestoreSyncActivity extends AppCompatActivity {
 
     EditText mSeedInput;
-    EditText mKeyUsesInput;
 
     EditText mMegaNode;
     @Override
@@ -33,7 +30,7 @@ public class RestoreWalletSyncActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         EdgeToEdge.enable(this);
-        setContentView(R.layout.restorewallet_activity);
+        setContentView(R.layout.restorewallet_blockaskeyuses_activity);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.restorewallet_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -45,7 +42,6 @@ public class RestoreWalletSyncActivity extends AppCompatActivity {
         setSupportActionBar(tb);
 
         mSeedInput      = findViewById(R.id.restorewallet_seed);
-        mKeyUsesInput   = findViewById(R.id.restorewallet_keyuses);
         mMegaNode       = findViewById(R.id.restorewallet_megammr);
 
         Button checkbutton = findViewById(R.id.restorewallet_button_check);
@@ -83,13 +79,6 @@ public class RestoreWalletSyncActivity extends AppCompatActivity {
                     return;
                 }
 
-                String keyusesstr = mKeyUsesInput.getText().toString().trim();
-                if(keyusesstr.equals("")){
-                    showDialog("Seed Error","Cannot have an empty seed");
-                    return;
-                }
-                int keyuses = Integer.parseInt(keyusesstr);
-
                 String megammr = mMegaNode.getText().toString().trim();
 
                 //Set the prefs..
@@ -97,13 +86,13 @@ public class RestoreWalletSyncActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("SEED_SET", true);
                 editor.putString("SEED", seed);
-                editor.putInt("KEYUSES", keyuses);
+                editor.putInt("KEYUSES", 0);
                 editor.putString("default_peers", megammr);
                 editor.commit();
 
                 //Jump to restore wallet..
-                Intent myIntent = new Intent(RestoreWalletSyncActivity.this, SeedSyncServiceActivity.class);
-                RestoreWalletSyncActivity.this.startActivity(myIntent);
+                Intent myIntent = new Intent(RestoreSyncActivity.this, SeedSyncServiceActivity.class);
+                RestoreSyncActivity.this.startActivity(myIntent);
 
                 //Close the main Laumcher
                 //ChooseKeySystemActivity.CHOOSESYSTEM_ACTIVITY.finish();

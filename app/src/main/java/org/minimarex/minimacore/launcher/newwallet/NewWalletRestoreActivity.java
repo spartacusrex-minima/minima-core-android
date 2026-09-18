@@ -19,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import org.minima.utils.BIP39;
 import org.minimarex.minimacore.R;
-import org.minimarex.minimacore.launcher.ChooseKeySystemActivity;
 import org.minimarex.minimacore.launcher.LauncherActivity;
 import org.minimarex.minimacore.launcher.StartServiceActivity;
 import org.minimarex.minimacore.launcher.restore.SeedSyncServiceActivity;

@@ -1,7 +1,6 @@
 package org.minimarex.minimacore.launcher;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -16,13 +15,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import org.minima.utils.json.JSONArray;
-import org.minima.utils.json.JSONObject;
 import org.minimarex.minimacore.R;
 import org.minimarex.minimacore.launcher.newwallet.NewWalletActivity;
-import org.minimarex.minimacore.launcher.restore.RestoreBlockAsKeysSyncActivity;
-import org.minimarex.minimacore.launcher.restore.RestoreWalletSyncActivity;
-import org.minimarex.minimacore.receiver.ReceiverDB;
+import org.minimarex.minimacore.launcher.restore.RestoreSyncActivity;
 import org.minimarex.minimacore.utils.logger;
 
 public class LauncherActivity extends AppCompatActivity {
@@ -57,7 +52,7 @@ public class LauncherActivity extends AppCompatActivity {
         }
 
         Toolbar tb = findViewById(R.id.toolbar);
-        tb.setTitle("Minima-Core");
+        tb.setTitle("Minima");
         setSupportActionBar(tb);
 
         Button newwallet = findViewById(R.id.launcher_button_newwallet);
@@ -75,20 +70,9 @@ public class LauncherActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                SharedPreferences pref  = getSharedPreferences("main_prefs",MODE_PRIVATE);
-//
-//                //Are we using the NEW systen..
-//                if(pref.getBoolean("BLOCKS_AS_KEYUSES", false)){
-
                     //Start new activity - NO Key Uses..
-                    Intent myIntent = new Intent(LauncherActivity.this, RestoreBlockAsKeysSyncActivity.class);
+                    Intent myIntent = new Intent(LauncherActivity.this, RestoreSyncActivity.class);
                     LauncherActivity.this.startActivity(myIntent);
-
-//                }else{
-//                    //Start ORIGINAL new activity - with Key Uses..
-//                    Intent myIntent = new Intent(LauncherActivity.this, RestoreWalletSyncActivity.class);
-//                    LauncherActivity.this.startActivity(myIntent);
-//                }
             }
         });
     }

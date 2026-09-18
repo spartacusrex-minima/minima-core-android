@@ -51,13 +51,12 @@
         </activity>
 
         <!-- Launcher -->
-        <activity android:name=".launcher.ChooseKeySystemActivity"></activity>
-        <activity android:name=".launcher.restore.RestoreBlockAsKeysSyncActivity"></activity>
+        <activity android:name=".launcher.restore.RestoreSyncActivity"></activity>
 
         <activity android:name=".launcher.LauncherActivity"></activity>
         <activity android:name=".launcher.newwallet.NewWalletActivity"></activity>
         <activity android:name=".launcher.newwallet.NewWalletRestoreActivity"></activity>
-        <activity android:name=".launcher.restore.RestoreWalletSyncActivity"></activity>
+
         <activity android:name=".launcher.restore.SeedSyncServiceActivity"></activity>
         <activity android:name=".main.SeedSyncActivity"></activity>
 

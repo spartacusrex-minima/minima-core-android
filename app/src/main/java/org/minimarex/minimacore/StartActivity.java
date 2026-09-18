@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.minimarex.minimacore.launcher.ChooseKeySystemActivity;
 import org.minimarex.minimacore.launcher.LauncherActivity;
 import org.minimarex.minimacore.launcher.StartServiceActivity;
 import org.minimarex.minimacore.utils.logger;
