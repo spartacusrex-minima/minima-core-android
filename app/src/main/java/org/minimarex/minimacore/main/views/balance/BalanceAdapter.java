@@ -54,14 +54,14 @@ public class BalanceAdapter extends BaseAdapter {
 
         TextView tokenname      = row.findViewById(R.id.balance_tokenname);
         TextView tokenamount    = row.findViewById(R.id.balance_tokenamount);
-        TextView tokenid        = row.findViewById(R.id.balance_tokenid);
+//        TextView tokenid        = row.findViewById(R.id.balance_tokenid);
 
         //Get the balance..
         JSONObject bal = (JSONObject) mCurrentBalance.get(position);
 
         //Token ID
-        String id = bal.get("tokenid").toString();
-        tokenid.setText(id);
+//        String id = bal.get("tokenid").toString();
+//        tokenid.setText(id);
 
         //Token name
         String name = TokenUtils.getTokenName(bal);

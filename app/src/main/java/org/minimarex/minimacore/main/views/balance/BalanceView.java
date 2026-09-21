@@ -1,12 +1,17 @@
 package org.minimarex.minimacore.main.views.balance;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.minima.utils.json.JSONArray;
 import org.minima.utils.json.JSONObject;
 import org.minimarex.minimacore.R;
 import org.minimarex.minimacore.main.BaseView;
+import org.minimarex.minimacore.main.views.history.TxPowViewer;
 import org.minimarex.minimacore.utils.MinimaCMD;
 import org.minimarex.minimacore.utils.MinimaCMDListener;
 import org.minimarex.minimacore.utils.logger;
@@ -24,6 +29,22 @@ public class BalanceView extends BaseView {
 
         mBalanceList = getMainView().findViewById(R.id.wallet_balance_list);
         mBalanceList.setAdapter(mBalanceAdapter);
+
+        mBalanceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //Get the txpowid
+                JSONObject bal = (JSONObject) mBalanceAdapter.getItem(position);
+
+                //Jump to restore wallet..
+                Intent myIntent = new Intent(getActivity(), TokenViewer.class);
+                Bundle params = new Bundle();
+                params.putString("token",bal.toJSONString());
+                myIntent.putExtras(params);
+                getActivity().startActivity(myIntent);
+            }
+        });
 
         refreshView();
     }
@@ -48,7 +69,7 @@ public class BalanceView extends BaseView {
         }
 
         //Run Cmd
-        MinimaCMD.runMinima("balance", new MinimaCMDListener() {
+        MinimaCMD.runMinima("balance tokendetails:true", new MinimaCMDListener() {
             @Override
             public void cmdResult(JSONObject zResult) {
 
