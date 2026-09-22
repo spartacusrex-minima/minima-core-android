@@ -48,6 +48,7 @@ import org.minimarex.minimacore.main.views.terminal.TerminalActivity;
 import org.minimarex.minimacore.receiver.ReceiverDB;
 import org.minimarex.minimacore.service.MinimaService;
 import org.minimarex.minimacore.service.MinimaServiceListener;
+import org.minimarex.minimacore.utils.ImageDownloader;
 import org.minimarex.minimacore.utils.MinimaCMD;
 import org.minimarex.minimacore.utils.MinimaCMDListener;
 import org.minimarex.minimacore.utils.logger;
@@ -86,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
         //Start the Service..
         startMinimaService();
+
+        //Start the image Downlaoder
+        ImageDownloader.createImageDownloader(this);
 
         //Follow the system night mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
