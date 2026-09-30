@@ -1,4 +1,4 @@
-package org.minimarex.minimacore;
+package org.minima.core;
 
 import android.content.Context;
 

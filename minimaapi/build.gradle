@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'org.minimarex.minimaapi'
+    namespace 'org.minima.minimaapi'
     compileSdk 36
 
     defaultConfig {

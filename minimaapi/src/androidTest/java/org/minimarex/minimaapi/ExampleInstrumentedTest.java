@@ -1,4 +1,4 @@
-package org.minimarex.minimaapi;
+package org.minima.minimaapi;
 
 import android.content.Context;
 
