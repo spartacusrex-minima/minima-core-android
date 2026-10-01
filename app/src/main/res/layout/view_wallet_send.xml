@@ -40,19 +40,35 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/wallet_send_address_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_marginTop="@dimen/spacing_large"
-        android:hint="Address">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/wallet_send_address"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/wallet_send_address_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Address">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/wallet_send_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/wallet_send_qrscan"
+            android:layout_width="66dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
+            app:icon="@drawable/ic_freedom" />
+
+    </LinearLayout>
 
     <View
         android:layout_width="wrap_content"

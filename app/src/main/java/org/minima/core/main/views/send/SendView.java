@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.journeyapps.barcodescanner.ScanOptions;
+
+import org.minima.core.main.MainActivity;
 import org.minima.utils.json.JSONArray;
 import org.minima.utils.json.JSONObject;
 import org.minima.core.R;
@@ -24,25 +28,37 @@ public class SendView extends BaseView {
     TextView mAddress;
 
     Button mSendButton;
+    Button mQRButton;
     AutoCompleteTextView mTokens;
 
     TokenSpinnerAdapter mTokenAdapter;
 
     int mChosenToken=0;
 
-    public SendView(Activity zActivity){
+    MainActivity mMainQR;
+
+    public SendView(MainActivity zActivity){
         super(zActivity, R.layout.view_wallet_send);
+
+        mMainQR = zActivity;
 
         mTokens = getMainView().findViewById(R.id.wallet_send_tokens);
         mTokenAdapter = new TokenSpinnerAdapter(zActivity);
         mTokens.setAdapter(mTokenAdapter);
-
         mTokens.setOnItemClickListener((parent, view, position, id) -> {
             mChosenToken = position;
         });
 
         mAmount     = getMainView().findViewById(R.id.wallet_send_amount);
         mAddress    = getMainView().findViewById(R.id.wallet_send_address);
+
+        mQRButton = getMainView().findViewById(R.id.wallet_send_qrscan);
+        mQRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMainQR.startQRScanner();
+            }
+        });
 
         mSendButton = getMainView().findViewById(R.id.wallet_send_sendbutton);
         mSendButton.setOnClickListener(new View.OnClickListener() {
@@ -93,14 +109,19 @@ public class SendView extends BaseView {
         });
 
         String cmd = "send amount:"+zAMount+" address:"+zAddress+" tokenid:"+zTokenid;
-
         MinimaCMD.runMinima(cmd, new MinimaCMDListener() {
             @Override
             public void cmdResult(JSONObject zResult) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "Funds Sent!", Toast.LENGTH_SHORT).show();
+
+                        if(!zResult.getBoolean("status")){
+                            //Something went wrong..
+                            Toast.makeText(getActivity(), zResult.getString("error"), Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getActivity(), "Funds Sent!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -141,5 +162,9 @@ public class SendView extends BaseView {
                 mTokens.invalidate();
             }
         });
+    }
+
+    public void setAddressValue(String zValue){
+        mAddress.setText(zValue);
     }
 }

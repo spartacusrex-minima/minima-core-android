@@ -36,6 +36,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanIntentResult;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import org.minima.database.MinimaDB;
 import org.minima.objects.TxPoW;
@@ -77,11 +80,27 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     //Kepp here for other activities to access
     public static ReceiverDB RECEIVER_DB = null;
 
+    private ActivityResultLauncher<Intent> mScanQrResultLauncher=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         MAIN_ACTIVITY = this;
+
+        //QR Code scanner
+        mScanQrResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                resultData ->{
+                    if (resultData.getResultCode() == RESULT_OK) {
+                        ScanIntentResult result = ScanIntentResult.parseActivityResult(resultData.getResultCode(), resultData.getData());
+
+                        //this will be qr activity result
+                        if (result.getContents() != null) {
+                            mMainAdapter.getSendView().setAddressValue(result.getContents());
+                        }
+                    }
+                });
 
         SharedPreferences pref  = getSharedPreferences("main_prefs",MODE_PRIVATE);
 
@@ -518,5 +537,19 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         mMinimaService = null;
+    }
+
+
+    //Scan an Mx Address
+    public void startQRScanner(){
+
+        ScanOptions scan = new ScanOptions();
+        scan.setDesiredBarcodeFormats(ScanOptions.QR_CODE);
+        scan.setPrompt("");
+        scan.setOrientationLocked(false);
+
+        //Launch it..
+        mScanQrResultLauncher.launch(new ScanContract().createIntent(this, scan));
+
     }
 }

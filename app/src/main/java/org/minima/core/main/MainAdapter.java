@@ -43,6 +43,9 @@ public class MainAdapter extends androidx.viewpager.widget.PagerAdapter {
     public AppsView getAppsView(){
         return (AppsView) mAllViews[3];
     }
+    public SendView getSendView(){
+        return (SendView) mAllViews[1];
+    }
 
     //Refresh the Balance..
     public void refreshHomeView(){
