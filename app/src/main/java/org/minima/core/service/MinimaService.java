@@ -201,7 +201,8 @@ public class MinimaService extends Service {
                     }else if(event.equals("NEWBALANCE")){
 
                         //Notify the User
-                        createNotification("Your balance has changed");
+                        createBalanceNotification();
+//                        createNotification("Your balance has changed");
 
                     }else if(event.equals("SHUTDOWN")){
 
@@ -406,6 +407,19 @@ public class MinimaService extends Service {
                 .build();
 
         return mNotification;
+    }
+
+    public void createBalanceNotification(){
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Minima")
+                .setContentText("Your balance has changed!")
+                .setAutoCancel(true)
+                .setSmallIcon(R.drawable.ic_minima)
+                .setContentIntent(createDefaultPending())
+                .build();
+
+        mNotificationManager.notify("0xFFEEDD", 3, notification);
     }
 
     public void cancelNotification(String zMiniDAPPUID){
