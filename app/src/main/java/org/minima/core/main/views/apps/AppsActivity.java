@@ -50,6 +50,9 @@ public class AppsActivity extends AppCompatActivity {
         mAppsList = findViewById(R.id.wallet_apps_list);
         mAppsList.setAdapter(mAppsAdapter);
 
+        //Set the Empty View
+        mAppsList.setEmptyView(findViewById(R.id.empty_text_view));
+
         mAppsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

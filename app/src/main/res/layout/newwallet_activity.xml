@@ -39,14 +39,14 @@
         android:textSize="18sp"
         android:textStyle="bold"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="@dimen/spacing_medium"
-        android:text="( You will need this on the next screen.. )"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="14sp"/>
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center"-->
+<!--        android:paddingTop="@dimen/spacing_medium"-->
+<!--        android:text="( You will need this on the next screen.. )"-->
+<!--        android:textColor="?attr/colorOnSurfaceVariant"-->
+<!--        android:textSize="14sp"/>-->
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

@@ -18,4 +18,14 @@
         android:paddingBottom="@dimen/spacing_large"
         android:paddingTop="@dimen/spacing_small"/>
 
+    <TextView
+        android:id="@+id/empty_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:gravity="center"
+        android:text="No Applications yet.."
+        android:textSize="18dp"
+        android:visibility="gone"/>
+
 </LinearLayout>

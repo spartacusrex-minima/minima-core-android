@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
+    android:paddingLeft="8dp"
     android:paddingTop="4dp"
-    android:paddingRight="16dp"
+    android:paddingRight="8dp"
     android:paddingBottom="4dp" >
 
     <LinearLayout

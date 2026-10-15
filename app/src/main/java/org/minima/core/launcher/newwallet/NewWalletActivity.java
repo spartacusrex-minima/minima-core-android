@@ -1,6 +1,7 @@
 package org.minima.core.launcher.newwallet;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.minima.core.launcher.LauncherActivity;
+import org.minima.core.launcher.StartServiceActivity;
 import org.minima.utils.BIP39;
 import org.minima.core.R;
 
@@ -40,13 +43,23 @@ public class NewWalletActivity extends AppCompatActivity {
         TextView seedtxt = findViewById(R.id.newwallet_seed);
         seedtxt.setText(seed);
 
+        //Set the prefs..
+        SharedPreferences prefs = getSharedPreferences("main_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("SEED_SET", true);
+        editor.putString("SEED", seed);
+        editor.commit();
+
         Button proceedbutton = findViewById(R.id.newwallet_button_proceed);
         proceedbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Jump to restore wallet..
-                Intent myIntent = new Intent(NewWalletActivity.this, NewWalletRestoreActivity.class);
+                Intent myIntent = new Intent(NewWalletActivity.this, StartServiceActivity.class);
                 NewWalletActivity.this.startActivity(myIntent);
+
+                //Shut down the main launcher
+                LauncherActivity.LAUNCHER_ACTIVITY.finish();
 
                 finish();
             }

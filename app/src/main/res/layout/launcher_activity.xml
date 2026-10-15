@@ -36,7 +36,7 @@
         android:paddingBottom="30dp"
         android:text="Welcome to Minima"
         android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="16sp"/>
+        android:textSize="18sp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/launcher_button_newwallet"

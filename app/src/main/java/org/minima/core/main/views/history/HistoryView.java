@@ -26,12 +26,15 @@ public class HistoryView extends BaseView {
     MiniNumber mLatestTxPoWTime = MiniNumber.ZERO;
 
     public HistoryView(Activity zActivity){
-        super(zActivity, R.layout.view_apps);
+        super(zActivity, R.layout.view_history);
 
         mHistoryAdapter = new HistoryAdapter(zActivity);
 
         mHsitoryList = getMainView().findViewById(R.id.wallet_apps_list);
         mHsitoryList.setAdapter(mHistoryAdapter);
+
+        //Set the Empty View
+        mHsitoryList.setEmptyView(getMainView().findViewById(R.id.empty_text_view));
 
         mHsitoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -53,6 +56,8 @@ public class HistoryView extends BaseView {
                 getActivity().startActivity(myIntent);
             }
         });
+
+
     }
 
     @Override
@@ -96,6 +101,8 @@ public class HistoryView extends BaseView {
                     mCurrentHistory = history;
 
                     JSONArray alldetails = (JSONArray) history.get("details");
+
+                    //alldetails = new JSONArray();
 
                     updateHistoryDetails(alldetails);
                 }
