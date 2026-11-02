@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.view.WindowManager;
 
 import org.minima.core.R;
 
@@ -20,14 +21,19 @@ public class logger {
     }
 
     public static void showDialog(Context zContext, String zTitle, String zMessage, Runnable zOnOK){
-        new AlertDialog.Builder(zContext)
+        AlertDialog.Builder builder = new AlertDialog.Builder(zContext)
                 .setTitle(zTitle)
                 .setMessage(zMessage)
                 .setIcon(R.drawable.ic_minima)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int whichButton) {
                         zOnOK.run();
-                    }}).show();
+                    }});
 
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                                    WindowManager.LayoutParams.FLAG_SECURE);
+
+        dialog.show();
     }
 }
