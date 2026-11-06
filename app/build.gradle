@@ -31,8 +31,10 @@ android {
 
 dependencies {
 
-    //H2 database
-    implementation 'com.h2database:h2:2.4.240'
+    //H2 database — 2.4.240 fails Android's ART bytecode verifier (VerifyError in
+    //org.h2.security.SHA256.getPBKDF2) and kills the node at startup. 2.1.214 is
+    //API-compatible and verifies cleanly. See H2_VERIFYERROR_FIX.md.
+    implementation 'com.h2database:h2:2.1.214'
 
     //Bouncy Castle
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.69'
