@@ -101,6 +101,9 @@ public class MinimaService extends Service {
     //Receiver listening for Broadcast Messages
     private MinimaReceiver mMinimaReceiver;
 
+    //Process Received messages in the background..
+    MinimaBackgroundReceiver mBackgroundReceiver;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -263,7 +266,7 @@ public class MinimaService extends Service {
 
         //TESTER HACK
         //vars.add("-clean");
-        //vars.add("-solo");
+        vars.add("-solo");
 
         vars.add("-nosyncibd");
 
@@ -313,8 +316,11 @@ public class MinimaService extends Service {
         //Listen to Battery Events
         addBatteryListener();
 
+        //Backgroujnd receiver
+        mBackgroundReceiver = new MinimaBackgroundReceiver(this, minima);
+
         //And the broadcast receiver
-        mMinimaReceiver = new MinimaReceiver(minima, this);
+        mMinimaReceiver = new MinimaReceiver(mBackgroundReceiver, this);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(MinimaAPIMessages.MINIMA_API_REGISTER);
@@ -492,6 +498,9 @@ public class MinimaService extends Service {
 
         //Not listening anymore..
         Main.setMinimaListener(null);
+
+        //Shutdown background processor
+        mBackgroundReceiver.stopMessageProcessor();
 
         //Shut the channel..
         mNotificationManager.deleteNotificationChannel(CHANNEL_ID);

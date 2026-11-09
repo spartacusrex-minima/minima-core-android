@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.minima.Minima;
+import org.minima.core.service.MinimaBackgroundReceiver;
 import org.minima.utils.json.JSONObject;
 import org.minima.minimaapi.MinimaAPI;
 import org.minima.minimaapi.MinimaAPILogger;
 import org.minima.minimaapi.MinimaAPIMessages;
 import org.minima.core.utils.logger;
+import org.minima.utils.messages.Message;
 
 import java.util.Objects;
 
@@ -17,15 +19,16 @@ public class MinimaReceiver extends BroadcastReceiver {
 
     public static final int MAX_MESSAGE_LEN = 256000;
 
-    private Minima mMinima;
+//    private Minima mMinima;
+    private MinimaBackgroundReceiver mBackground;
 
     ReceiverDB mDatabase;
 
-    public MinimaReceiver(Minima zMinima, Context zContext){
+    public MinimaReceiver(MinimaBackgroundReceiver zBackground, Context zContext){
         super();
 
         //Store for later
-        mMinima = zMinima;
+        mBackground = zBackground;
 
         mDatabase = new ReceiverDB(zContext);
         //mDatabase.wipeDB();
@@ -111,7 +114,7 @@ public class MinimaReceiver extends BroadcastReceiver {
                 //Update last used
                 mDatabase.updateLastUsed(frompackage, frompackageuid);
 
-                String cmd      = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_CMD_ACTION);
+                String cmd = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_CMD_ACTION);
 
                 //Check size.. is JSON format so will be longer than normal HEX
                 //Need to be able to sign transactions etc..
@@ -121,18 +124,22 @@ public class MinimaReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                //Run the command
-                String result   = mMinima.runMinimaCMD(cmd, false, Userid);
+                //Send to Background..
+                Message msg = MinimaBackgroundReceiver.createMessage(cmd, Userid, frompackage, responseid, minimauid);
+                mBackground.PostMessage(msg);
 
-                //Check the result is within acceptable parameters
-                if(result.length() > MAX_MESSAGE_LEN){
-                    String basicmessage = getBasicMessage(false, enabled, admin, "Result too long! MAX("+MAX_MESSAGE_LEN+")");
-                    sendResponse(zContext, frompackage, responseid, minimauid, basicmessage);
-                    return;
-                }
-
-                //Send it back..
-                sendResponse(zContext, frompackage, responseid, minimauid, result);
+//                //Run the command
+//                String result   = mMinima.runMinimaCMD(cmd, false, Userid);
+//
+//                //Check the result is within acceptable parameters
+//                if(result.length() > MAX_MESSAGE_LEN){
+//                    String basicmessage = getBasicMessage(false, enabled, admin, "Result too long! MAX("+MAX_MESSAGE_LEN+")");
+//                    sendResponse(zContext, frompackage, responseid, minimauid, basicmessage);
+//                    return;
+//                }
+//
+//                //Send it back..
+//                sendResponse(zContext, frompackage, responseid, minimauid, result);
             }
 
         }catch(Exception exc){
