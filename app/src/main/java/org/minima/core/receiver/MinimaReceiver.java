@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class MinimaReceiver extends BroadcastReceiver {
 
-    public static final int MAX_MESSAGE_LEN = 256000;
+    public static final int MAX_MESSAGE_LEN = 256 * 1024;
 
 //    private Minima mMinima;
     private MinimaBackgroundReceiver mBackground;

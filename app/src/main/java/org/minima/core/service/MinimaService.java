@@ -266,7 +266,7 @@ public class MinimaService extends Service {
 
         //TESTER HACK
         //vars.add("-clean");
-        vars.add("-solo");
+        //vars.add("-solo");
 
         vars.add("-nosyncibd");
 
