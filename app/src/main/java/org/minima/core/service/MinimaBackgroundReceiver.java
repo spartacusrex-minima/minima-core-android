@@ -13,6 +13,9 @@ import org.minima.utils.messages.MessageProcessor;
 
 public class MinimaBackgroundReceiver extends MessageProcessor  {
 
+    //64K max message
+    public static final int MAX_MESSAGE_LEN = 64 * 1024;
+
     public static final String MINIMA_BACKGROUND_RECEIVER_REQUEST = "MINIMA_BACKGROUND_RECEIVER_REQUEST";
 
     Minima mMinima = null;
@@ -43,8 +46,6 @@ public class MinimaBackgroundReceiver extends MessageProcessor  {
     @Override
     protected void processMessage(Message zMessage) throws Exception {
 
-        //Log.d("MinimaAPILogger","RECEIVED : "+zMessage.toString());
-
         if(zMessage.getMessageType().equals(MINIMA_BACKGROUND_RECEIVER_REQUEST)){
 
             //What is the command
@@ -59,16 +60,18 @@ public class MinimaBackgroundReceiver extends MessageProcessor  {
             //Run the command..
             String result = mMinima.runMinimaCMD(cmd, false, userid);
 
-            //Send back the result..
-            sendResponse(frompackage, responseid, minimauid, result);
+            if(result.length() > MAX_MESSAGE_LEN){
+                //Chunk it..
+                sendResponseChunked(frompackage, responseid, minimauid, result);
+
+            }else{
+                //Send back the result..
+                sendResponse(frompackage, responseid, minimauid, result);
+            }
         }
     }
 
     public void sendResponse(String zPackage, String zResponseID, String zMinimaID, String zResponse){
-
-//        if(true){
-//            MinimaAPILogger.log("BACKGROUND RECEIVER - SEND BROADCAST respID:"+zResponseID+" resp:"+zResponse);
-//        }
 
         //Create the Response intent
         Intent intent = new Intent(MinimaAPIMessages.MINIMA_API_RESPONSE);
@@ -79,7 +82,7 @@ public class MinimaBackgroundReceiver extends MessageProcessor  {
         //The ResponseID they expect
         intent.putExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_ID, zResponseID);
 
-        //The REsponse Data
+        //The Response Data
         intent.putExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_RESULT, zResponse);
 
         //Set to send ONLY back to original sender
@@ -87,5 +90,46 @@ public class MinimaBackgroundReceiver extends MessageProcessor  {
 
         //And broadcast
         mContext.sendBroadcast(intent);
+    }
+
+    public void sendResponseChunked(String zPackage, String zResponseID, String zMinimaID, String zResponse){
+
+        //How many chunks..
+        int totlen = zResponse.length();
+        int chunks = (int)Math.ceil((double)totlen / (double)MAX_MESSAGE_LEN);
+
+        //Chunk the message
+        for(int i=0;i<chunks;i++){
+
+            //Create the Response intent
+            Intent intent = new Intent(MinimaAPIMessages.MINIMA_API_RESPONSE_CHUNKED);
+
+            //Chunk details
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_CHUNKED_SIZE, chunks);
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_CHUNKED_POS, i);
+
+            //The MinimaID they expect
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_REGISTER_MINIMAID, zMinimaID);
+
+            //The ResponseID they expect
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_ID, zResponseID);
+
+            //The Response Data - chunked!
+            int start   = i*MAX_MESSAGE_LEN;
+            int end     = start+MAX_MESSAGE_LEN;
+            if(end > totlen){
+                end = totlen;
+            }
+            String chunk = zResponse.substring(start, end);
+
+            //Add just the chunk
+            intent.putExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_RESULT, chunk);
+
+            //Set to send ONLY back to original sender
+            intent.setPackage(zPackage);
+
+            //And broadcast
+            mContext.sendBroadcast(intent);
+        }
     }
 }

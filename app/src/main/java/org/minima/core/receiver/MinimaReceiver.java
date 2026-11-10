@@ -124,22 +124,11 @@ public class MinimaReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                //Send to Background..
+                //Create a message processor
                 Message msg = MinimaBackgroundReceiver.createMessage(cmd, Userid, frompackage, responseid, minimauid);
-                mBackground.PostMessage(msg);
 
-//                //Run the command
-//                String result   = mMinima.runMinimaCMD(cmd, false, Userid);
-//
-//                //Check the result is within acceptable parameters
-//                if(result.length() > MAX_MESSAGE_LEN){
-//                    String basicmessage = getBasicMessage(false, enabled, admin, "Result too long! MAX("+MAX_MESSAGE_LEN+")");
-//                    sendResponse(zContext, frompackage, responseid, minimauid, basicmessage);
-//                    return;
-//                }
-//
-//                //Send it back..
-//                sendResponse(zContext, frompackage, responseid, minimauid, result);
+                //Send to Background Service thread..
+                mBackground.PostMessage(msg);
             }
 
         }catch(Exception exc){

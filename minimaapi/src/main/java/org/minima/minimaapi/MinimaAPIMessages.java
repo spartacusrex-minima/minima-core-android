@@ -26,6 +26,11 @@ public class MinimaAPIMessages {
     public static final String MINIMA_API_RESPONSE_ID           = MINIMA_BASE_CLASS +".RESPONSE_ID";
     public static final String MINIMA_API_RESPONSE_RESULT       = MINIMA_BASE_CLASS +".RESPONSE_RESULT";
 
+    //Send the response back in Chunks
+    public static final String MINIMA_API_RESPONSE_CHUNKED       = MINIMA_BASE_CLASS +".RESPONSE_CHUNKED";
+    public static final String MINIMA_API_RESPONSE_CHUNKED_POS   = MINIMA_BASE_CLASS +".RESPONSE_CHUNKED_POS";
+    public static final String MINIMA_API_RESPONSE_CHUNKED_SIZE  = MINIMA_BASE_CLASS +".RESPONSE_CHUNKED_SIZE";
+
     //Send a global Broadcast Message
     public static final String MINIMA_API_NOTIFY                = MINIMA_BASE_CLASS +".NOTIFY";
     public static final String MINIMA_API_NOTIFY_DATA           = MINIMA_BASE_CLASS +".NOTIFY_DATA";

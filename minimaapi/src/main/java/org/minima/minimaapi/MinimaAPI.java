@@ -45,6 +45,8 @@ public class MinimaAPI {
 
     Hashtable<String, MinimaAPIListener> mResponseHandlers = new Hashtable<>();
 
+    Hashtable<String, ChunkedMessage> mChunkHandlers = new Hashtable<>();
+
     MinimaAPIReceive mMinimaAPIReceiver;
 
     public MinimaAPI(Context zContext, MinimaAPIListener zRegisterListener){
@@ -71,8 +73,10 @@ public class MinimaAPI {
         //Create a Receiver..
         mMinimaAPIReceiver = new MinimaAPIReceive(this);
 
+        //Register for the correct messages
         IntentFilter filter = new IntentFilter();
         filter.addAction(MinimaAPIMessages.MINIMA_API_RESPONSE);
+        filter.addAction(MinimaAPIMessages.MINIMA_API_RESPONSE_CHUNKED);
 
         zContext.registerReceiver(mMinimaAPIReceiver, filter, Context.RECEIVER_EXPORTED);
 
@@ -132,6 +136,73 @@ public class MinimaAPI {
         }else{
             //Remove this response handler..
             mResponseHandlers.remove(responseid);
+
+            //Handle reply..
+            listener.response(json);
+        }
+    }
+
+    public void ResponseReceivedChunked(Intent zIntent){
+
+        //Check the Minima ID values..
+        String minimaid = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_REGISTER_MINIMAID);
+        if(!minimaid.equals(MINIMA_ID)){
+            MinimaAPILogger.log("Received Invalid MinimaID from broadcast! : "+minimaid);
+            return;
+        }
+
+        String responseid   = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_ID);
+        String result       = zIntent.getStringExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_RESULT);
+
+        //It's a CHUNKED message in multiple parts
+        int size    = zIntent.getIntExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_CHUNKED_SIZE,1);
+        int pos     = zIntent.getIntExtra(MinimaAPIMessages.MINIMA_API_RESPONSE_CHUNKED_POS,0);
+
+        //Get the ChunkedMessage
+        ChunkedMessage chkmsg = mChunkHandlers.get(responseid);
+        if(chkmsg == null){
+            //Create as first time
+            chkmsg = new ChunkedMessage(size);
+            mChunkHandlers.put(responseid, chkmsg);
+        }
+
+        //Now add this message to the chunks..
+        chkmsg.setChunk(pos, result);
+
+        //Is it finished..
+        if(chkmsg.isFinished()){
+            result = chkmsg.getFullMessage();
+        }else{
+            //Still more to go..
+            return;
+        }
+
+        //Convert the Result to a JSON
+        JSONObject json = null;
+        try {
+            json = new JSONObject(result);
+        } catch (JSONException e) {
+            MinimaAPILogger.log("Received Invalid JSONObject from broadcast! : "+result);
+
+            json = new JSONObject();
+        }
+
+        //Find the Listener..
+        MinimaAPIListener listener = mResponseHandlers.get(responseid);
+
+        if(MinimaAPI.LOGGING_ENABLED){
+            MinimaAPILogger.log("MinimaAPI - RECEIVED CHUNKED respID:"+responseid+" resp:"+result);
+        }
+
+        //Did we find it..
+        if(listener == null){
+            MinimaAPILogger.log("Received Invalid ResponseID.. not found : "+responseid);
+        }else{
+            //Remove this response handler..
+            mResponseHandlers.remove(responseid);
+
+            //And in case it was chunked..
+            mChunkHandlers.remove(responseid);
 
             //Handle reply..
             listener.response(json);
