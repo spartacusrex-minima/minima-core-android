@@ -62,6 +62,14 @@ public class StartServiceActivity extends AppCompatActivity implements ServiceCo
                     }
                 }
 
+                while(Main.getInstance() == null){
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
                 logger.log("Now wait for Minima to say..");
                 if(!Main.getInstance().isStartUpComplete()) {
                     runOnUiThread(new Runnable() {
